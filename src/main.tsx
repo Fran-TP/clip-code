@@ -4,7 +4,7 @@ import './styles/globals.css'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import MainLayout from '@layouts/main-layout'
 import Home from './pages/home'
-import CreateSnippet from './pages/craete-snippet'
+import CreateSnippet from './pages/create-snippet'
 
 const routes = createBrowserRouter([
   {
