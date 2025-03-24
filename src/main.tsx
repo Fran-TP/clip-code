@@ -1,10 +1,31 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import './styles/globals.css'
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import MainLayout from '@layouts/main-layout'
+import Home from './pages/home'
+import CreateSnippet from './pages/craete-snippet'
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    Component: MainLayout,
+    errorElement: <div>Oops! Something went wrong.</div>,
+    children: [
+      {
+        index: true,
+        Component: Home,
+      },
+      {
+        path: 'create',
+        Component: CreateSnippet,
+      },
+    ],
+  },
+])
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+    <RouterProvider router={routes} />
+  </React.StrictMode>
+)
