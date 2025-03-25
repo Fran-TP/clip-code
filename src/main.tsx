@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './styles/globals.css'
-import { createBrowserRouter, RouterProvider } from 'react-router'
 import MainLayout from '@layouts/main-layout'
 import Home from './pages/home'
 import CreateSnippet from './pages/create-snippet'
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import '@styles/globals.css'
 
 const routes = createBrowserRouter([
   {
@@ -15,13 +15,21 @@ const routes = createBrowserRouter([
       {
         index: true,
         Component: Home,
+        loader: async () => {
+          return new Response('')
+        },
+        HydrateFallback: () => <div>Loading...</div>
       },
       {
         path: 'create',
         Component: CreateSnippet,
-      },
-    ],
-  },
+        loader: async () => {
+          return new Response('')
+        },
+        HydrateFallback: () => <div>Loading...</div>
+      }
+    ]
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
