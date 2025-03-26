@@ -18,7 +18,8 @@
 			"@styles/*": ["src/styles/*"],
 			"@stores/*": ["src/lib/stores/*"],
 			"@helpers/*": ["src/lib/helpers/*"],
-			"@types/*": ["src/lib/types/*"]
+			"@types/*": ["src/lib/types/*"],
+			"@icons": ["src/components/icons/*"]
 		},
 
 		/* Bundler mode */
