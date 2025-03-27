@@ -1,9 +1,9 @@
+import MainLayout from '@layouts/main-layout'
+import CreateSnippet from '@pages/create-snippet'
+import Home from '@pages/home'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import MainLayout from '@layouts/main-layout'
-import Home from './pages/home'
-import CreateSnippet from './pages/create-snippet'
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@styles/globals.css'
 
 const routes = createBrowserRouter([
