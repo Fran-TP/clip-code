@@ -1,6 +1,6 @@
 import MainLayout from '@layouts/main-layout'
-import CreateSnippet from '@pages/create-snippet'
-import Home from '@pages/home'
+import CreateSnippet, { createSnippetLoader } from '@pages/create-snippet'
+import Home, { loaderHome } from '@pages/home'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router'
@@ -10,22 +10,17 @@ const routes = createBrowserRouter([
   {
     path: '/',
     Component: MainLayout,
-    errorElement: <div>Oops! Something went wrong.</div>,
     children: [
       {
         index: true,
         Component: Home,
-        loader: async () => {
-          return new Response('')
-        },
+        loader: loaderHome,
         HydrateFallback: () => <div>Loading...</div>
       },
       {
         path: 'create',
         Component: CreateSnippet,
-        loader: async () => {
-          return new Response('')
-        },
+        loader: createSnippetLoader,
         HydrateFallback: () => <div>Loading...</div>
       }
     ]
