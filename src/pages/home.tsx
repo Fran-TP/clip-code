@@ -1,5 +1,7 @@
 import MasonryLayout from '@components/atoms/masonry'
 import SnippetCard from '@components/molecules/snippet-card'
+import { db } from '@lib/constants/dbConfig'
+import { useLoaderData } from 'react-router'
 
 const snippets = [
   {
@@ -121,7 +123,17 @@ export default MonacoEditor;`
   }
 ]
 
+export const loaderHome = async () => {
+  const result = await db.select('select * from categories;')
+
+  return { result }
+}
+
 const Home: React.FC = () => {
+  const { result } = useLoaderData()
+
+  console.log(result)
+
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">Snippets</h1>
