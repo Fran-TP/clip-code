@@ -1,5 +1,29 @@
 import EditorCode from '@components/molecules/editor-code'
 import FormSnippet from '@components/molecules/form-snippet'
+import { db } from '@lib/constants/dbConfig'
+
+export const createSnippetLoader = async () => {
+  const categoriesWithLanguages = await db.select<
+    { categoryName: string; langName: string }[]
+  >(`
+    SELECT c.name categoryName, l.name langName FROM languages_categories lc
+      JOIN main.categories c on c.category_id = lc.fk_category_id
+      JOIN main.languages l on l.language_id = lc.fk_language_id;
+  `)
+
+  const languages = await db.select(`
+    SELECT l.language_id langId, l.name langName
+    FROM languages l
+  `)
+
+  return {
+    categoriesWithLanguages: Object.groupBy(
+      categoriesWithLanguages,
+      ({ categoryName }) => categoryName
+    ),
+    languages
+  }
+}
 
 const CreateSnippet: React.FC = () => {
   return (
