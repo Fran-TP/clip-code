@@ -1,26 +1,16 @@
 import EditorCode from '@components/molecules/editor-code'
 import FormSnippet from '@components/molecules/form-snippet'
-import { db } from '@lib/constants/dbConfig'
+import fetchCategoriesWithLanguages from '@services/fetchCategoriesWithLanguages'
+import fetchLanguages from '@services/fetchLanguages'
 
 export const createSnippetLoader = async () => {
-  const categoriesWithLanguages = await db.select<
-    { categoryName: string; langName: string }[]
-  >(`
-    SELECT c.name categoryName, l.name langName FROM languages_categories lc
-      JOIN main.categories c on c.category_id = lc.fk_category_id
-      JOIN main.languages l on l.language_id = lc.fk_language_id;
-  `)
-
-  const languages = await db.select(`
-    SELECT l.language_id langId, l.name langName
-    FROM languages l
-  `)
+  const [categoriesWithLanguages, languages] = await Promise.all([
+    fetchCategoriesWithLanguages(),
+    fetchLanguages()
+  ])
 
   return {
-    categoriesWithLanguages: Object.groupBy(
-      categoriesWithLanguages,
-      ({ categoryName }) => categoryName
-    ),
+    categoriesWithLanguages,
     languages
   }
 }
