@@ -1,5 +1,6 @@
+import type { Languages } from '@lib/types'
 import type { FuseResult } from 'fuse.js'
 
-export const normalizeCategories = (items: FuseResult<string>[]) => {
-  return items.map(({ item }) => item)
+export const extractLanguages = (items: FuseResult<Languages>[]) => {
+  return items.map(({ item: language }) => language)
 }
