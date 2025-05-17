@@ -17,9 +17,10 @@
 			"@pages/*": ["src/pages/*"],
 			"@styles/*": ["src/styles/*"],
 			"@stores/*": ["src/lib/stores/*"],
+			"@services/*": ["src/services/*"],
 			"@helpers/*": ["src/lib/helpers/*"],
 			"@types/*": ["src/lib/types/*"],
-			"@icons": ["src/components/icons/*"]
+			"@icons/*": ["src/components/icons/*"]
 		},
 
 		/* Bundler mode */
