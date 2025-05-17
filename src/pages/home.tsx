@@ -1,7 +1,10 @@
 import MasonryLayout from '@components/atoms/masonry'
 import SnippetCard from '@components/molecules/snippet-card'
-import { db } from '@lib/constants/dbConfig'
-import { useLoaderData } from 'react-router'
+import SnippetsSkeleton from '@components/skeletons/snippets-skeleton'
+import type { Snippet } from '@lib/types'
+import fetchLanguages from '@services/fetchLanguages'
+import { useEffect, useState } from 'react'
+import { codeToHtml } from 'shiki'
 
 const snippets = [
   {
@@ -124,24 +127,49 @@ export default MonacoEditor;`
 ]
 
 export const loaderHome = async () => {
-  const result = await db.select('select * from categories;')
+  const languages = await fetchLanguages()
 
-  return { result }
+  return { languages }
 }
 
 const Home: React.FC = () => {
-  const { result } = useLoaderData()
+  const [parsedSnippets, setParsedSnipppets] = useState<Snippet[]>([])
 
-  console.log(result)
+  useEffect(() => {
+    const loadAllSnippets = async () => {
+      const result = await Promise.all(
+        snippets.map(async snippet => {
+          const html = await codeToHtml(snippet.code, {
+            theme: 'github-dark-default',
+            lang: 'javascript'
+          })
+          return { ...snippet, code: html, rawCode: snippet.code }
+        })
+      )
+
+      setParsedSnipppets(result)
+    }
+
+    loadAllSnippets()
+  }, [])
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">Snippets</h1>
-      <MasonryLayout items={snippets}>
-        {item => (
-          <SnippetCard key={item.id} title={item.title} rawValue={item.code} />
-        )}
-      </MasonryLayout>
+      {parsedSnippets.length === 0 ? (
+        <SnippetsSkeleton />
+      ) : (
+        <MasonryLayout items={parsedSnippets}>
+          {item => (
+            <SnippetCard
+              key={item.id}
+              title={item.title}
+              code={item.code}
+              rawCode={item.rawCode}
+            />
+          )}
+        </MasonryLayout>
+      )}
     </>
   )
 }
