@@ -1,8 +1,8 @@
-import { Outlet, useLocation } from 'react-router'
+import Progressbar from '@components/atoms/progressbar'
 import Header from '@components/molecules/header'
 import Sidebar from '@components/molecules/sidenav'
-import Progressbar from '@components/atoms/progressbar'
 import { AnimatePresence, motion } from 'motion/react'
+import { Outlet, useLocation } from 'react-router'
 
 const MainLayout: React.FC = () => {
   const { pathname } = useLocation()
@@ -16,8 +16,8 @@ const MainLayout: React.FC = () => {
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
             key={pathname}
-            initial={{ y: 20 }}
-            animate={{ y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
             className="flex flex-col flex-1 p-4 overflow-y-auto"
           >
             <Outlet />
