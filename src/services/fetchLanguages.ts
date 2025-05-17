@@ -1,11 +1,13 @@
 import { db } from '@lib/constants/dbConfig'
+import type { Languages } from '@lib/types'
 
-const fetchLanguages = async () => {
-  const result = await db.select(`
-    SELECT c.name categoryName, l.name langName FROM languages_categories lc
-      JOIN main.categories c on c.category_id = lc.fk_category_id
-      JOIN main.languages l on l.language_id = lc.fk_language_id;
-  `)
+const fetchLanguages = (): Promise<Languages[]> => {
+  const result = db.select<Languages[]>(`
+   SELECT l.language_id languageId, l.name language
+   FROM languages l
+ `)
+
+  return result
 }
 
 export default fetchLanguages
