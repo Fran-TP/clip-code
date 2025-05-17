@@ -1,41 +1,21 @@
 import { Check, Copy } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useEffect, useState } from 'react'
-import { codeToHtml } from 'shiki'
+import { useState } from 'react'
 
 interface SnippetCardProps {
   title: string
-  rawValue: string
+  code: string
+  rawCode: string
 }
 
-const SnippetCard: React.FC<SnippetCardProps> = ({ title, rawValue }) => {
-  const [code, setCode] = useState<string | null>(null)
+const SnippetCard: React.FC<SnippetCardProps> = ({ title, rawCode, code }) => {
   const [isCopied, setIsCopied] = useState(false)
 
   const handleClickCopy = () => {
-    navigator.clipboard.writeText(rawValue)
+    navigator.clipboard.writeText(rawCode)
 
     setIsCopied(true)
     setTimeout(() => setIsCopied(false), 600)
-  }
-
-  useEffect(() => {
-    const convertCodeToHtml = async () => {
-      const html = await codeToHtml(rawValue, {
-        theme: 'github-dark-default',
-        lang: 'javascript'
-      })
-      setCode(html)
-    }
-    convertCodeToHtml()
-  }, [rawValue])
-
-  if (!code) {
-    return (
-      <div className="flex items-center justify-center h-full p-4">
-        <p className="text-gray-500 text-sm">Loading...</p>
-      </div>
-    )
   }
 
   return (
