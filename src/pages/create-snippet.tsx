@@ -28,7 +28,7 @@ const CreateSnippet: React.FC = () => {
           <div className="p-2">
             <span className="text-sm font-bold">Code Snippet</span>
           </div>
-          <EditorCode />
+          <EditorCode language="zig" />
         </div>
       </div>
     </>
