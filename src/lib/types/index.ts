@@ -3,7 +3,6 @@ export interface Snippet {
   title: string
   description: string
   code: string
-  rawCode: string
 }
 
 export interface Languages {
@@ -22,4 +21,8 @@ export interface CategoriesWithLanguagesMap
 export type LoaderDataCreateSnippet = {
   categoriesWithLanguages: CategoriesWithLanguagesMap
   languages: Languages[]
+}
+
+export interface ParsedSnippet extends Snippet {
+  rawCode: string
 }
