@@ -1,10 +1,8 @@
 import MasonryLayout from '@components/atoms/masonry'
 import SnippetCard from '@components/molecules/snippet-card'
 import SnippetsSkeleton from '@components/skeletons/snippets-skeleton'
-import type { Snippet } from '@lib/types'
+import { useParsedSnippets } from '@lib/hooks/useParsedSnippets'
 import fetchLanguages from '@services/fetchLanguages'
-import { useEffect, useState } from 'react'
-import { codeToHtml } from 'shiki'
 
 const snippets = [
   {
@@ -133,32 +131,12 @@ export const loaderHome = async () => {
 }
 
 const Home: React.FC = () => {
-  const [parsedSnippets, setParsedSnipppets] = useState<Snippet[]>([])
-
-  useEffect(() => {
-    const loadAllSnippets = async () => {
-      const result = await Promise.all(
-        snippets.map(async snippet => {
-          const html = await codeToHtml(snippet.code, {
-            theme: 'github-dark-default',
-            lang: 'javascript'
-          })
-          return { ...snippet, code: html, rawCode: snippet.code }
-        })
-      )
-
-      setParsedSnipppets(result)
-    }
-
-    loadAllSnippets()
-  }, [])
+  const { parsedSnippets, hasParsedSnippets } = useParsedSnippets({ snippets })
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">Snippets</h1>
-      {parsedSnippets.length === 0 ? (
-        <SnippetsSkeleton />
-      ) : (
+      {hasParsedSnippets ? (
         <MasonryLayout items={parsedSnippets}>
           {item => (
             <SnippetCard
@@ -169,6 +147,8 @@ const Home: React.FC = () => {
             />
           )}
         </MasonryLayout>
+      ) : (
+        <SnippetsSkeleton />
       )}
     </>
   )
