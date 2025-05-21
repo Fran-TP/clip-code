@@ -1,5 +1,6 @@
 import EditorCode from '@components/molecules/editor-code'
 import FormSnippet from '@components/molecules/form-snippet'
+import { useEditorCode } from '@lib/context/editorCodeContext'
 import fetchCategoriesWithLanguages from '@services/fetchCategoriesWithLanguages'
 import fetchLanguages from '@services/fetchLanguages'
 
@@ -16,6 +17,7 @@ export const createSnippetLoader = async () => {
 }
 
 const CreateSnippet: React.FC = () => {
+  const { selectedLanguage } = useEditorCode()
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">Create Snippet</h1>
@@ -25,10 +27,13 @@ const CreateSnippet: React.FC = () => {
           <FormSnippet />
         </div>
         <div className="border-2 border-gray-800 overflow-clip rounded-md flex flex-col">
-          <div className="p-2">
-            <span className="text-sm font-bold">Code Snippet</span>
+          <div className="p-2 flex gap-2 items-center">
+            <span className="text-sm">Code Snippet</span>
+            <span className="text-sm font-bold text-gray-500">
+              {selectedLanguage}
+            </span>
           </div>
-          <EditorCode language="zig" />
+          <EditorCode />
         </div>
       </div>
     </>
