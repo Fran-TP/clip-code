@@ -1,3 +1,5 @@
+import type { BundledLanguage } from 'shiki'
+
 export interface Snippet {
   id: number
   title: string
@@ -6,7 +8,7 @@ export interface Snippet {
 }
 
 export interface Languages {
-  languageId: string
+  languageId: BundledLanguage
   language: string
 }
 
