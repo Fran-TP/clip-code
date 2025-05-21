@@ -5,6 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@styles/globals.css'
+import { EditorCodeProvider } from '@lib/context/editorCodeContext'
 
 const routes = createBrowserRouter([
   {
@@ -29,6 +30,8 @@ const routes = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <EditorCodeProvider>
+      <RouterProvider router={routes} />
+    </EditorCodeProvider>
   </React.StrictMode>
 )
