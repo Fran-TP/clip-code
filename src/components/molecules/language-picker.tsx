@@ -1,6 +1,7 @@
 import type { CategoriesWithLanguagesMap, Languages } from '@lib/types'
 import clsx from 'clsx'
 import { Check } from 'lucide-react'
+import type { BundledLanguage } from 'shiki'
 
 interface LanguagePickerProps {
   categoriesWithLanguages: CategoriesWithLanguagesMap
@@ -8,7 +9,7 @@ interface LanguagePickerProps {
   selectedCategory: string
   selectedLanguage: string | null
   onSelectedCategory: (category: string) => () => void
-  onSelectedLanguage: (language: string) => () => void
+  onSelectedLanguage: (language: BundledLanguage) => () => void
 }
 
 const LanguagePicker: React.FC<LanguagePickerProps> = ({
@@ -59,10 +60,10 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
                         'hover:bg-gray-800': language !== selectedLanguage
                       }
                     )}
-                    onClick={onSelectedLanguage(language)}
+                    onClick={onSelectedLanguage(languageId)}
                   >
                     <span>{language}</span>
-                    {language === selectedLanguage && (
+                    {languageId === selectedLanguage && (
                       <Check className="size-4 text-green-500 stroke-4" />
                     )}
                   </button>
