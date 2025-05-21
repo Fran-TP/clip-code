@@ -1,58 +1,64 @@
 import { OPTIONS } from '@lib/constants/monacoConfig'
+import { useEditorCode } from '@lib/context/editorCodeContext'
 import Editor, { type Monaco, type BeforeMount } from '@monaco-editor/react'
 import { shikiToMonaco } from '@shikijs/monaco'
-import { useEffect, useRef } from 'react'
-import { type BundledLanguage, createHighlighter } from 'shiki'
-
-interface EditorCodeProps {
-  language: BundledLanguage
-}
+import { useEffect, useRef, useState } from 'react'
+import { createHighlighter } from 'shiki'
 
 const highlighter = createHighlighter({
   themes: ['github-dark-default'],
   langs: ['javascript', 'typescript']
 })
 
-const EditorCode: React.FC<EditorCodeProps> = ({ language }) => {
-  const initializedRef = useRef(false)
+const EditorCode: React.FC = () => {
+  const [isLoadingEditor, setIsLoadingEditor] = useState(false)
+  const { selectedLanguage: language } = useEditorCode()
+
+  const initializedMonacoEditor = useRef(false)
   const monacoRef = useRef<Monaco | null>(null)
 
   const handleEditorDidMount: BeforeMount = async monaco => {
-    if (initializedRef.current) return
+    if (initializedMonacoEditor.current) return
 
     console.log('Initializing Monaco Editor...')
 
-    monacoRef.current = monaco
-
     shikiToMonaco(await highlighter, monaco)
+
+    monacoRef.current = monaco
+    initializedMonacoEditor.current = true
+    console.log(initializedMonacoEditor.current)
   }
 
   useEffect(() => {
-    if (!initializedRef.current) return
+    if (!initializedMonacoEditor.current) return
 
-    console.log('Loading additional language:', language)
+    setIsLoadingEditor(true)
     const loadAdditionalLanguage = async () => {
       const instanceHighlighter = await highlighter
       const loadLanguage = instanceHighlighter.getLoadedLanguages()
+      console.log(loadLanguage)
 
       if (!loadLanguage.includes(language)) {
-        instanceHighlighter.loadLanguage(language)
+        await instanceHighlighter.loadLanguage(language)
+
+        monacoRef.current?.languages.register({ id: language })
 
         shikiToMonaco(instanceHighlighter, monacoRef.current)
       }
+
+      setIsLoadingEditor(false)
     }
 
     loadAdditionalLanguage()
-
-    return () => {
-      initializedRef.current = true
-    }
   }, [language])
 
-  return (
+  return isLoadingEditor ? (
+    <div className="animate-pulse flex h-full bg-base" />
+  ) : (
     <Editor
       className="h-full"
-      defaultLanguage="javascript"
+      language={language}
+      loading={<div className="animate-pulse flex h-full bg-base" />}
       defaultValue="// your code here"
       theme="github-dark-default"
       beforeMount={handleEditorDidMount}
