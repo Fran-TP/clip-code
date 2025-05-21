@@ -1,49 +1,56 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  font-weight: 300;
-  font-style: normal;
-  font-display: block;
-  src: local('JetBrains Mono Light'), local('JetBrainsMono-Light'),
-    url('/fonts/JetBrainsMono-Light.woff2') format('woff2'),
-    url('/fonts/JetBrainsMono-Light.woff') format('woff'),
-    url('/fonts/JetBrainsMono-Light.ttf') format('truetype');
+	font-family: "JetBrains Mono";
+	font-weight: 300;
+	font-style: normal;
+	font-display: block;
+	src: local("JetBrains Mono Light"), local("JetBrainsMono-Light"),
+		url("/fonts/JetBrainsMono-Light.woff2") format("woff2"),
+		url("/fonts/JetBrainsMono-Light.woff") format("woff"),
+		url("/fonts/JetBrainsMono-Light.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Poppins';
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-  src: local('Poppins'),
-    url('/fonts/poppins-latin-400-normal.woff2') format('woff2'),
-    url('/fonts/poppins-latin-400-normal.woff') format('woff'),
-    url('/fonts/poppins-latin-400-normal.ttf') format('truetype');
+	font-family: "Poppins";
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+	src: local("Poppins"), url("/fonts/poppins-latin-400-normal.woff2")
+		format("woff2"), url("/fonts/poppins-latin-400-normal.woff") format("woff"),
+		url("/fonts/poppins-latin-400-normal.ttf") format("truetype");
 }
 
 @theme {
-  --font-JetBrainsMono: 'JetBrains Mono', monospace, ui-monospace;
-  --font-Poppins: 'Poppins', system-ui, sans-serif, serif;
-  /* Colors */
-  --color-base: hsl(216, 28%, 7%);
+	--font-JetBrainsMono: "JetBrains Mono", monospace, ui-monospace;
+	--font-Poppins: "Poppins", system-ui, sans-serif, serif;
+	/* Colors */
+	--color-base: hsl(216, 28%, 7%);
 }
 
 @utility button-raised {
-  box-shadow: 0px -2px 2px 0px var(--color-cyan-600) inset,
-    0px 0px 1px 2px rgba(49, 21, 130, 0.2),
-    0px 0px 0px 2px var(--color-cyan-500) inset;
+	box-shadow:
+		0px -2px 2px 0px var(--color-cyan-600) inset,
+		0px 0px 1px 2px rgba(49, 21, 130, 0.2),
+		0px 0px 0px 2px var(--color-cyan-500) inset;
+}
+
+@utility scroll-base {
+	--scroll-track-color: var(--color-gray-950);
+	--scroll-thumb-color: var(--color-base);
+
+	scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
 }
 
 .shiki {
-  overflow-x: auto;
-  padding-block: calc(var(--spacing) * 4);
+	overflow-x: auto;
+	padding-block: calc(var(--spacing) * 4);
 
-  & > code {
-    font-family: var(--font-JetBrainsMono);
-    font-size: var(--text-sm);
-    & .line {
-      padding-inline: calc(var(--spacing) * 4);
-    }
-  }
+	& > code {
+		font-family: var(--font-JetBrainsMono);
+		font-size: var(--text-sm);
+		& .line {
+			padding-inline: calc(var(--spacing) * 4);
+		}
+	}
 }
