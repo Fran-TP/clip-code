@@ -2,19 +2,21 @@ import Button from '@components/atoms/button'
 import Input from '@components/atoms/input'
 import Label from '@components/atoms/label'
 import LanguagePicker from '@components/molecules/language-picker'
+import { useEditorCode } from '@lib/context/editorCodeContext'
 import { extractLanguages } from '@lib/helpers/normalizeCategories'
 import type { LoaderDataCreateSnippet } from '@lib/types'
 import Fuse from 'fuse.js'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 import { useLoaderData } from 'react-router'
+import type { BundledLanguage } from 'shiki'
 
 const FormSnippet = () => {
   const { categoriesWithLanguages, languages } =
     useLoaderData<LoaderDataCreateSnippet>()
 
+  const { selectedLanguage, setSelectedLanguage } = useEditorCode()
   const [selectedCategory, setSelectedCategory] = useState('General')
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
 
   const fuse = new Fuse(languages, {
@@ -38,7 +40,7 @@ const FormSnippet = () => {
     setSearchTerm(searchValue)
   }
 
-  const handleSelectedLanguage = (language: string) => () => {
+  const handleSelectedLanguage = (language: BundledLanguage) => () => {
     setSelectedLanguage(language)
   }
 
