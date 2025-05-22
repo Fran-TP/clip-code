@@ -1,7 +1,10 @@
-import { OPTIONS } from '@lib/constants/monacoConfig'
+import {
+  OPTIONS,
+  initializeMonacoEditor,
+  loadAdditionalLanguage
+} from '@lib/constants/monacoConfig'
 import { useEditorCode } from '@lib/context/editorCodeContext'
 import Editor, { type Monaco, type BeforeMount } from '@monaco-editor/react'
-import { shikiToMonaco } from '@shikijs/monaco'
 import { useEffect, useRef, useState } from 'react'
 import { createHighlighter } from 'shiki'
 
@@ -20,36 +23,22 @@ const EditorCode: React.FC = () => {
   const handleEditorDidMount: BeforeMount = async monaco => {
     if (initializedMonacoEditor.current) return
 
-    console.log('Initializing Monaco Editor...')
-
-    shikiToMonaco(await highlighter, monaco)
+    initializeMonacoEditor(monaco, highlighter)
 
     monacoRef.current = monaco
     initializedMonacoEditor.current = true
-    console.log(initializedMonacoEditor.current)
   }
 
   useEffect(() => {
-    if (!initializedMonacoEditor.current) return
+    if (!initializedMonacoEditor.current || !monacoRef.current) return
 
-    setIsLoadingEditor(true)
-    const loadAdditionalLanguage = async () => {
-      const instanceHighlighter = await highlighter
-      const loadLanguage = instanceHighlighter.getLoadedLanguages()
-      console.log(loadLanguage)
-
-      if (!loadLanguage.includes(language)) {
-        await instanceHighlighter.loadLanguage(language)
-
-        monacoRef.current?.languages.register({ id: language })
-
-        shikiToMonaco(instanceHighlighter, monacoRef.current)
-      }
-
-      setIsLoadingEditor(false)
-    }
-
-    loadAdditionalLanguage()
+    loadAdditionalLanguage(monacoRef.current, language, highlighter)
+      .then(() => {
+        setIsLoadingEditor(true)
+      })
+      .finally(() => {
+        setIsLoadingEditor(false)
+      })
   }, [language])
 
   return isLoadingEditor ? (
