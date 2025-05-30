@@ -8,8 +8,8 @@ interface LanguagePickerProps {
   languages: Languages[]
   selectedCategory: string
   selectedLanguage: string | null
-  onSelectedCategory: (category: string) => () => void
-  onSelectedLanguage: (language: BundledLanguage) => () => void
+  onSelectedCategory(category: string): () => void
+  onSelectedLanguage(language: BundledLanguage): () => void
 }
 
 const LanguagePicker: React.FC<LanguagePickerProps> = ({
