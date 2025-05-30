@@ -13,6 +13,28 @@
 
 @font-face {
 	font-family: "Poppins";
+	font-weight: 100;
+	font-style: normal;
+	font-display: block;
+	src: local("Poppins Thin"), local("Poppins-Thin"),
+		url("/fonts/poppins-latin-100-normal.woff2") format("woff2"),
+		url("/fonts/poppins-latin-100-normal.woff") format("woff"),
+		url("/fonts/poppins-latin-100-normal.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Poppins";
+	font-weight: 200;
+	font-style: normal;
+	font-display: block;
+	src: local("Poppins ExtraLight"), local("Poppins-ExtraLight"),
+		url("/fonts/poppins-latin-200-normal.woff2") format("woff2"),
+		url("/fonts/poppins-latin-200-normal.woff") format("woff"),
+		url("/fonts/poppins-latin-200-normal.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Poppins";
 	font-weight: 400;
 	font-style: normal;
 	font-display: block;
