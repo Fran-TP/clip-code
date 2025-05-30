@@ -2,32 +2,35 @@ import MasonryLayout from '@components/atoms/masonry'
 import SnippetCard from '@components/molecules/snippet-card'
 import SnippetsSkeleton from '@components/skeletons/snippets-skeleton'
 import { useParsedSnippets } from '@lib/hooks/useParsedSnippets'
+import type { Snippet } from '@lib/types'
 import fetchLanguages from '@services/fetchLanguages'
+import { fetchSnippets } from '@services/snippet-service'
+import { useLoaderData } from 'react-router'
 
 const snippets = [
-  {
-    id: 1,
-    title: 'Sample Snippet',
-    description: 'This is a sample snippet description.',
-    code: `const hello = 'Hello, world!';\nconsole.log(hello);`
-  },
-  {
-    id: 2,
-    title: 'Another Snippet',
-    description: 'This is another snippet description.',
-    code: `const greet = name => \`Hello, \${name}!\`;\ngreet('Alice');`
-  },
-  {
-    id: 3,
-    title: 'Yet Another Snippet',
-    description: 'This is yet another snippet description.',
-    code: 'const add = (a, b) => a + b;\nconsole.log(add(2, 3));'
-  },
-  {
-    id: 4,
-    title: 'Button ant design',
-    description: 'This is a sample snippet description.',
-    code: `import React from 'react';
+	{
+		id: 1,
+		title: 'Sample Snippet',
+		description: 'This is a sample snippet description.',
+		code: `const hello = 'Hello, world!';\nconsole.log(hello);`
+	},
+	{
+		id: 2,
+		title: 'Another Snippet',
+		description: 'This is another snippet description.',
+		code: `const greet = name => \`Hello, \${name}!\`;\ngreet('Alice');`
+	},
+	{
+		id: 3,
+		title: 'Yet Another Snippet',
+		description: 'This is yet another snippet description.',
+		code: 'const add = (a, b) => a + b;\nconsole.log(add(2, 3));'
+	},
+	{
+		id: 4,
+		title: 'Button ant design',
+		description: 'This is a sample snippet description.',
+		code: `import React from 'react';
 import { Button, Flex } from 'antd';
 
 const App: React.FC = () => (
@@ -41,12 +44,12 @@ const App: React.FC = () => (
 );
 
 export default App;`
-  },
-  {
-    id: 5,
-    title: 'Button material ui',
-    description: 'This is a sample snippet description.',
-    code: `import React from 'react';
+	},
+	{
+		id: 5,
+		title: 'Button material ui',
+		description: 'This is a sample snippet description.',
+		code: `import React from 'react';
 import { Button, Stack } from '@mui/material';
 
 const MaterialButton: React.FC = () => (
@@ -58,12 +61,12 @@ const MaterialButton: React.FC = () => (
 );
 
 export default MaterialButton;`
-  },
-  {
-    id: 6,
-    title: 'Buttons, Flex ant design',
-    description: 'This is a sample snippet description.',
-    code: `import { Masonry } from 'react-plock'
+	},
+	{
+		id: 6,
+		title: 'Buttons, Flex ant design',
+		description: 'This is a sample snippet description.',
+		code: `import { Masonry } from 'react-plock'
 
 interface MasonryProps {
   items: { id: number; title: string; description: string; code: string }[]
@@ -89,12 +92,12 @@ const MasonryLayout: React.FC<MasonryProps> = ({ items, children }) => {
 
 export default MasonryLayout
 `
-  },
-  {
-    id: 7,
-    title: 'Shiki and monaco',
-    description: 'This is a sample snippet description.',
-    code: `import React, { useEffect, useRef } from 'react';
+	},
+	{
+		id: 7,
+		title: 'Shiki and monaco',
+		description: 'This is a sample snippet description.',
+		code: `import React, { useEffect, useRef } from 'react';
 import * as monaco from 'monaco-editor';
 
 function MonacoEditor() {
@@ -121,37 +124,40 @@ function MonacoEditor() {
 }
 
 export default MonacoEditor;`
-  }
+	}
 ]
 
 export const loaderHome = async () => {
-  const languages = await fetchLanguages()
+	const snippets = await fetchSnippets()
 
-  return { languages }
+	return { snippets }
 }
 
 const Home: React.FC = () => {
-  const { parsedSnippets, hasParsedSnippets } = useParsedSnippets({ snippets })
+	const { snippets } = useLoaderData<{
+		snippets: Snippet[]
+	}>()
+	const { parsedSnippets, hasParsedSnippets } = useParsedSnippets({ snippets })
 
-  return (
-    <>
-      <h1 className="text-3xl font-bold mb-4">Snippets</h1>
-      {hasParsedSnippets ? (
-        <MasonryLayout items={parsedSnippets}>
-          {item => (
-            <SnippetCard
-              key={item.id}
-              title={item.title}
-              code={item.code}
-              rawCode={item.rawCode}
-            />
-          )}
-        </MasonryLayout>
-      ) : (
-        <SnippetsSkeleton />
-      )}
-    </>
-  )
+	return (
+		<>
+			<h1 className="text-3xl font-bold mb-4">Snippets</h1>
+			{hasParsedSnippets ? (
+				<MasonryLayout items={parsedSnippets}>
+					{item => (
+						<SnippetCard
+							key={item.snippetId}
+							title={item.title}
+							code={item.code}
+							rawCode={item.rawCode}
+						/>
+					)}
+				</MasonryLayout>
+			) : (
+				<SnippetsSkeleton />
+			)}
+		</>
+	)
 }
 
 export default Home
