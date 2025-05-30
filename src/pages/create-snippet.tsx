@@ -3,6 +3,7 @@ import FormSnippet from '@components/molecules/form-snippet'
 import { useEditorCode } from '@lib/context/editorCodeContext'
 import fetchCategoriesWithLanguages from '@services/fetchCategoriesWithLanguages'
 import fetchLanguages from '@services/fetchLanguages'
+import { useState } from 'react'
 
 export const createSnippetLoader = async () => {
   const [categoriesWithLanguages, languages] = await Promise.all([
@@ -17,6 +18,11 @@ export const createSnippetLoader = async () => {
 }
 
 const CreateSnippet: React.FC = () => {
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    code: ''
+  })
   const { selectedLanguage } = useEditorCode()
   return (
     <>
@@ -24,16 +30,16 @@ const CreateSnippet: React.FC = () => {
       <div className="grid flex-1 grid-cols-1 md:grid-cols-2 gap-4">
         <div className="border-2 border-gray-800 rounded-md p-4 flex flex-col gap-4 bg-base">
           <h2 className="text-xl font-semibold">Snippet Details</h2>
-          <FormSnippet />
+          <FormSnippet form={form} setForm={setForm} />
         </div>
         <div className="border-2 border-gray-800 overflow-clip rounded-md flex flex-col">
           <div className="p-2 flex gap-2 items-center">
-            <span className="text-sm">Code Snippet</span>
+            <span className="text-sm">Language</span>
             <span className="text-sm font-bold text-gray-500">
               {selectedLanguage}
             </span>
           </div>
-          <EditorCode />
+          <EditorCode form={form} setForm={setForm} />
         </div>
       </div>
     </>
