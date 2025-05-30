@@ -1,18 +1,18 @@
-import { Link, useLocation } from 'react-router'
-import { House, Plus } from 'lucide-react'
-import clsx from 'clsx'
 import GitHub from '@components/icons/github'
+import clsx from 'clsx'
+import { House, Plus } from 'lucide-react'
+import { Link, useLocation } from 'react-router'
 
 const links = [
-  { name: 'H', path: '/', icon: House },
-  { name: '+', path: '/create', icon: Plus }
+  { name: 'home', path: '/', icon: House },
+  { name: 'create', path: '/create', icon: Plus }
 ]
 
 const Sidebar = () => {
   const { pathname } = useLocation()
 
   return (
-    <aside className="p-4 flex flex-col h-full items-center justify-between border-r-2 border-gray-800">
+    <aside className="p-3 flex flex-col h-full items-center justify-between border-r-2 border-gray-800">
       <nav>
         <ul className="flex flex-col items-center justify-center gap-2">
           {links.map(link => {
