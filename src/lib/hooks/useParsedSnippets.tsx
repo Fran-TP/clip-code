@@ -3,35 +3,35 @@ import { useEffect, useState } from 'react'
 import { codeToHtml } from 'shiki'
 
 interface ParsedSnippetsProps {
-  snippets?: Snippet[]
+	snippets?: Snippet[]
 }
 
 export const useParsedSnippets = ({ snippets = [] }: ParsedSnippetsProps) => {
-  const [parsedSnippets, setParsedSnippets] = useState<ParsedSnippet[]>([])
+	const [parsedSnippets, setParsedSnippets] = useState<ParsedSnippet[]>([])
 
-  useEffect(() => {
-    const loadAllSnippets = async () => {
-      const result = await Promise.all(
-        snippets.map(async snippet => {
-          const html = await codeToHtml(snippet.code, {
-            theme: 'github-dark-default',
-            lang: 'javascript'
-          })
-          return { ...snippet, code: html, rawCode: snippet.code }
-        })
-      )
+	useEffect(() => {
+		const loadAllSnippets = async () => {
+			const result = await Promise.all(
+				snippets.map(async snippet => {
+					const html = await codeToHtml(snippet.code, {
+						theme: 'github-dark-default',
+						lang: snippet.fkLanguageId
+					})
+					return { ...snippet, code: html, rawCode: snippet.code }
+				})
+			)
 
-      setParsedSnippets(result)
-    }
+			setParsedSnippets(result)
+		}
 
-    loadAllSnippets()
-  }, [snippets])
+		loadAllSnippets()
+	}, [snippets])
 
-  const hasParsedSnippets = parsedSnippets.length > 0
+	const hasParsedSnippets = parsedSnippets.length > 0
 
-  return {
-    parsedSnippets,
-    setParsedSnippets,
-    hasParsedSnippets
-  }
+	return {
+		parsedSnippets,
+		setParsedSnippets,
+		hasParsedSnippets
+	}
 }
