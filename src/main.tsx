@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@styles/globals.css'
 import { EditorCodeProvider } from '@lib/context/editorCodeContext'
+import { Toaster } from 'sonner'
 
 const routes = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <EditorCodeProvider>
       <RouterProvider router={routes} />
+      <Toaster closeButton theme="dark" />
     </EditorCodeProvider>
   </React.StrictMode>
 )
