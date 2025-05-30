@@ -13,7 +13,22 @@ const highlighter = createHighlighter({
   langs: ['javascript', 'typescript']
 })
 
-const EditorCode: React.FC = () => {
+interface EditorCodeProps {
+  form: {
+    title: string
+    description: string
+    code: string
+  }
+  setForm: React.Dispatch<
+    React.SetStateAction<{
+      title: string
+      description: string
+      code: string
+    }>
+  >
+}
+
+const EditorCode: React.FC<EditorCodeProps> = ({ form, setForm }) => {
   const [isLoadingEditor, setIsLoadingEditor] = useState(false)
   const { selectedLanguage: language } = useEditorCode()
 
@@ -48,7 +63,13 @@ const EditorCode: React.FC = () => {
       className="h-full"
       language={language}
       loading={<div className="animate-pulse flex h-full bg-base" />}
-      defaultValue="// your code here"
+      value={form.code || '// your code here'}
+      onChange={value => {
+        setForm(prev => ({
+          ...prev,
+          code: value || ''
+        }))
+      }}
       theme="github-dark-default"
       beforeMount={handleEditorDidMount}
       options={OPTIONS}
