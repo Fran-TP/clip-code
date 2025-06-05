@@ -76,3 +76,35 @@
 		}
 	}
 }
+
+dialog {
+	transition: opacity 0.5s, scale 0.5s, display 0.5s, overlay 0.5s;
+	transition-behavior: allow-discrete;
+
+	opacity: 0;
+	scale: 0.9;
+}
+
+dialog[open] {
+	opacity: 1;
+	scale: 1;
+
+	@starting-style {
+		opacity: 0;
+		scale: 0.9;
+	}
+}
+
+dialog::backdrop {
+	transition: opacity 0.5s;
+
+	opacity: 0;
+}
+
+dialog[open]::backdrop {
+	opacity: 1;
+
+	@starting-style {
+		opacity: 0;
+	}
+}
