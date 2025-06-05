@@ -1,33 +1,33 @@
 import type { BundledLanguage } from 'shiki'
 
 export interface Snippet {
-	snippetId?: string
-	title: string
-	description: string
-	code: string
-	isFavorite?: boolean
-	createdAt?: Date
-	fkLanguageId: string
+  snippetId: string
+  title: string
+  description: string
+  code: string
+  isFavorite?: boolean
+  createdAt?: Date
+  fkLanguageId: string
 }
 
 export interface Languages {
-	languageId: BundledLanguage
-	language: string
+  languageId: BundledLanguage
+  language: string
 }
 
 export interface CategoriesWithLanguages extends Languages {
-	categoryId: number
-	category: string
+  categoryId: number
+  category: string
 }
 
 export interface CategoriesWithLanguagesMap
-	extends Partial<Record<string, CategoriesWithLanguages[]>> {}
+  extends Partial<Record<string, CategoriesWithLanguages[]>> {}
 
 export type LoaderDataCreateSnippet = {
-	categoriesWithLanguages: CategoriesWithLanguagesMap
-	languages: Languages[]
+  categoriesWithLanguages: CategoriesWithLanguagesMap
+  languages: Languages[]
 }
 
 export interface ParsedSnippet extends Snippet {
-	rawCode: string
+  rawCode: string
 }
