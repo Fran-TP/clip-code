@@ -54,7 +54,7 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
                   <button
                     type="button"
                     className={clsx(
-                      'w-full inline-flex justify-between items-center cursor-pointer text-left px-3 py-2 rounded-md text-sm transition-colors',
+                      'w-full inline-flex justify-between outline-base items-center cursor-pointer text-left px-3 py-2 rounded-md text-sm transition-colors',
                       {
                         'bg-gray-800': language === selectedLanguage,
                         'hover:bg-gray-800': language !== selectedLanguage
