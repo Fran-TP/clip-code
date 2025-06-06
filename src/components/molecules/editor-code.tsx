@@ -3,7 +3,7 @@ import {
   initializeMonacoEditor,
   loadAdditionalLanguage
 } from '@lib/constants/monacoConfig'
-import { useEditorCode } from '@lib/context/editorCodeContext'
+import { useFormSnippet } from '@lib/context/form-snippet-context'
 import Editor, { type Monaco, type BeforeMount } from '@monaco-editor/react'
 import { useEffect, useRef, useState } from 'react'
 import { createHighlighter } from 'shiki'
@@ -13,24 +13,9 @@ const highlighter = createHighlighter({
   langs: ['javascript', 'typescript']
 })
 
-interface EditorCodeProps {
-  form: {
-    title: string
-    description: string
-    code: string
-  }
-  setForm: React.Dispatch<
-    React.SetStateAction<{
-      title: string
-      description: string
-      code: string
-    }>
-  >
-}
-
-const EditorCode: React.FC<EditorCodeProps> = ({ form, setForm }) => {
+const EditorCode: React.FC = () => {
   const [isLoadingEditor, setIsLoadingEditor] = useState(false)
-  const { selectedLanguage: language } = useEditorCode()
+  const { formSnippet, setFormSnippet } = useFormSnippet()
 
   const initializedMonacoEditor = useRef(false)
   const monacoRef = useRef<Monaco | null>(null)
@@ -47,25 +32,24 @@ const EditorCode: React.FC<EditorCodeProps> = ({ form, setForm }) => {
   useEffect(() => {
     if (!initializedMonacoEditor.current || !monacoRef.current) return
 
-    loadAdditionalLanguage(monacoRef.current, language, highlighter)
+    loadAdditionalLanguage(monacoRef.current, formSnippet.language, highlighter)
       .then(() => {
         setIsLoadingEditor(true)
       })
       .finally(() => {
         setIsLoadingEditor(false)
       })
-  }, [language])
+  }, [formSnippet.language])
 
   return isLoadingEditor ? (
     <div className="animate-pulse flex h-full bg-base" />
   ) : (
     <Editor
-      className="h-full"
-      language={language}
+      language={formSnippet.language}
       loading={<div className="animate-pulse flex h-full bg-base" />}
-      value={form.code || '// your code here'}
+      value={formSnippet.code || '// your code here'}
       onChange={value => {
-        setForm(prev => ({
+        setFormSnippet(prev => ({
           ...prev,
           code: value || ''
         }))
