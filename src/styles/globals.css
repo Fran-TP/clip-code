@@ -57,6 +57,17 @@
 		0px 0px 0px 2px var(--color-cyan-500) inset;
 }
 
+@utility outline-base {
+	outline-width: 2px;
+	outline-color: transparent;
+	outline-offset: 3px;
+
+	&:focus-visible {
+		outline-style: solid;
+		outline-color: var(--color-gray-700);
+	}
+}
+
 @utility scroll-base {
 	--scroll-track-color: var(--color-gray-950);
 	--scroll-thumb-color: var(--color-base);
