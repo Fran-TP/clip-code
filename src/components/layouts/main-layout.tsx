@@ -16,8 +16,8 @@ const MainLayout: React.FC = () => {
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
             key={pathname}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="flex flex-col flex-1 p-4 overflow-y-auto scroll-base"
           >
             <Outlet />
