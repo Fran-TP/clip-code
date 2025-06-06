@@ -29,6 +29,9 @@ const Modal: React.FC<ModalProps> = ({
     <dialog
       ref={dialogRef}
       onClose={onClose}
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
       className={clsx(
         'm-auto bg-gray-950 text-gray-200 rounded-2xl border-2 border-gray-800 backdrop:backdrop-blur-sm overlay',
         className
