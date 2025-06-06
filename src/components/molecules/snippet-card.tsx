@@ -1,21 +1,23 @@
+import { useModal } from '@lib/context/modal-context'
 import { Check, Copy, Trash } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 
 interface SnippetCardProps {
+  snippetId: string
   title: string
   code: string
   rawCode: string
-  onOpenModal(): void
 }
 
 const SnippetCard: React.FC<SnippetCardProps> = ({
+  snippetId,
   title,
   rawCode,
-  code,
-  onOpenModal
+  code
 }) => {
   const [isCopied, setIsCopied] = useState(false)
+  const { showModal } = useModal()
 
   const handleClickCopy = () => {
     navigator.clipboard.writeText(rawCode)
@@ -31,7 +33,7 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
         <div className="flex gap-2">
           <button
             type="button"
-            className="group p-2 cursor-pointer border-2 border-gray-800 rounded-sm hover:bg-gray-900 transition-colors duration-200 inline-flex items-center justify-center"
+            className="group p-2 cursor-pointer border-2 border-gray-800 rounded-sm outline-base hover:bg-gray-900 transition-colors duration-200 inline-flex items-center justify-center"
             onClick={handleClickCopy}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -53,8 +55,8 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
           </button>
           <button
             type="button"
-            className="group p-2 cursor-pointer border-2 border-gray-800 rounded-sm hover:bg-gray-900 transition-colors duration-200 inline-flex items-center"
-            onClick={onOpenModal}
+            className="group p-2 cursor-pointer border-2 border-gray-800 rounded-sm outline-base hover:bg-gray-900 transition-colors duration-200 inline-flex items-center"
+            onClick={showModal({ snippetId, title })}
           >
             <Trash className="opacity-70 group-hover:opacity-100 size-4" />
           </button>
