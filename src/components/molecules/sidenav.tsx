@@ -29,7 +29,10 @@ const Sidebar = () => {
                   }
                 )}
               >
-                <Link to={link.path} className="p-2 inline-flex">
+                <Link
+                  to={link.path}
+                  className="p-2 inline-flex rounded-md outline-base"
+                >
                   <Icon
                     className={clsx('stroke-gray-200', {
                       'opacity-80': pathname !== link.path,
@@ -42,10 +45,9 @@ const Sidebar = () => {
           })}
         </ul>
       </nav>
-
       <Link
         to="https://github.com/Shpendrr/react-app-structure/tree/main"
-        className="group p-2 bg-linear-45 from-gray-950 to-cyan-500 rounded-lg"
+        className="group p-2 bg-linear-45 from-gray-950 to-cyan-500 outline-base rounded-lg"
       >
         <GitHub className="size-6 opacity-70 group-hover:opacity-100 transition-opacity duration-200" />
       </Link>
