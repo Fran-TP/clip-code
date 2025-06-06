@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@styles/globals.css'
 import { EditorCodeProvider } from '@lib/context/editorCodeContext'
+import { FormSnippetProvider } from '@lib/context/form-snippet-context'
+import { ModalProvider } from '@lib/context/modal-context'
 import { Toaster } from 'sonner'
 
 const routes = createBrowserRouter([
@@ -32,8 +34,12 @@ const routes = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <EditorCodeProvider>
-      <RouterProvider router={routes} />
-      <Toaster closeButton theme="dark" />
+      <ModalProvider>
+        <FormSnippetProvider>
+          <RouterProvider router={routes} />
+          <Toaster closeButton theme="dark" />
+        </FormSnippetProvider>
+      </ModalProvider>
     </EditorCodeProvider>
   </React.StrictMode>
 )
