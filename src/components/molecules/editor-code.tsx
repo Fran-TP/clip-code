@@ -47,7 +47,7 @@ const EditorCode: React.FC = () => {
     <Editor
       language={formSnippet.language}
       loading={<div className="animate-pulse flex h-full bg-base" />}
-      value={formSnippet.code || '// your code here'}
+      value={formSnippet.code}
       onChange={value => {
         setFormSnippet(prev => ({
           ...prev,
