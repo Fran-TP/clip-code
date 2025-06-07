@@ -41,9 +41,11 @@ const FormSnippet: React.FC = () => {
       setFormSnippet(prev => ({
         title: '',
         description: '',
-        code: '',
+        code: '// your code here',
         language: prev.language
       }))
+
+      setSearchTerm('')
 
       toast.success('Snippet created successfully')
     } else {
@@ -121,7 +123,6 @@ const FormSnippet: React.FC = () => {
             value={searchTerm}
             placeholder="Search language"
             autoComplete="off"
-            required
             onChange={handleSearchChange}
             className="peer w-full pl-8.5 text-sm"
           />
