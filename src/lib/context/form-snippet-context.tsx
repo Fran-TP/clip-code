@@ -23,7 +23,7 @@ export const FormSnippetProvider = ({ children }: FormSnippetProviderProps) => {
   const [formSnippet, setFormSnippet] = useState<FormSnippet>({
     title: '',
     description: '',
-    code: '',
+    code: '// your code here',
     language: 'javascript' as BundledLanguage
   })
 
