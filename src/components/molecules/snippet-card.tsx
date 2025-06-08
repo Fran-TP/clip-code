@@ -1,6 +1,7 @@
+import AnimatedIcon from '@components/atoms/animated-icon'
+import IconButton from '@components/atoms/icon-button'
 import { useModal } from '@lib/context/modal-context'
-import { Check, Copy, Trash } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { Check, Copy, Star, Trash } from 'lucide-react'
 import { useState } from 'react'
 
 interface SnippetCardProps {
@@ -31,35 +32,21 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
       <header className="p-2 flex items-center justify-between">
         <h2 className="text-sm font-medium">{title}</h2>
         <div className="flex gap-2">
-          <button
-            type="button"
-            className="group p-2 cursor-pointer border-2 border-gray-800 rounded-sm outline-base hover:bg-gray-900 transition-colors duration-200 inline-flex items-center justify-center"
-            onClick={handleClickCopy}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={isCopied ? 'copied' : 'copy'}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-                transition={{ duration: 0.2 }}
-                className="inline-flex items-center justify-center"
-              >
-                {isCopied ? (
-                  <Check className="opacity-70 group-hover:opacity-100 size-4" />
-                ) : (
-                  <Copy className="opacity-70 group-hover:opacity-100 size-4" />
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </button>
-          <button
-            type="button"
-            className="group p-2 cursor-pointer border-2 border-gray-800 rounded-sm outline-base hover:bg-gray-900 transition-colors duration-200 inline-flex items-center"
-            onClick={showModal({ snippetId, title })}
-          >
+          <IconButton onClick={handleClickCopy}>
+            <AnimatedIcon keyAnimation={isCopied ? 'copied' : 'copy'}>
+              {isCopied ? (
+                <Check className="opacity-70 group-hover:opacity-100 size-4" />
+              ) : (
+                <Copy className="opacity-70 group-hover:opacity-100 size-4" />
+              )}
+            </AnimatedIcon>
+          </IconButton>
+          <IconButton>
+            <Star className="opacity-70 group-hover:opacity-100 size-4" />
+          </IconButton>
+          <IconButton onClick={showModal({ snippetId, title })}>
             <Trash className="opacity-70 group-hover:opacity-100 size-4" />
-          </button>
+          </IconButton>
         </div>
       </header>
       <div
