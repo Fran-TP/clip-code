@@ -46,7 +46,7 @@ const Sidebar = () => {
         </ul>
       </nav>
       <Link
-        to="https://github.com/Shpendrr/react-app-structure/tree/main"
+        to="https://github.com/Fran-TP/clip-code"
         className="group p-2 bg-linear-45 from-gray-950 to-cyan-500 outline-base rounded-lg"
       >
         <GitHub className="size-6 opacity-70 group-hover:opacity-100 transition-opacity duration-200" />
