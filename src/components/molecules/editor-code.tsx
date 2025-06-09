@@ -2,7 +2,7 @@ import {
   OPTIONS,
   initializeMonacoEditor,
   loadAdditionalLanguage
-} from '@lib/constants/monacoConfig'
+} from '@lib/constants/monaco-config'
 import { useFormSnippet } from '@lib/context/form-snippet-context'
 import Editor, { type Monaco, type BeforeMount } from '@monaco-editor/react'
 import { useEffect, useRef, useState } from 'react'
