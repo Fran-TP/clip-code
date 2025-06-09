@@ -4,50 +4,80 @@ import SnippetCard from '@components/molecules/snippet-card'
 import SnippetsSkeleton from '@components/skeletons/snippets-skeleton'
 import { useModal } from '@lib/context/modal-context'
 import { useParsedSnippets } from '@lib/hooks/use-parsed-snippets'
-import type { Snippet } from '@lib/types'
 import { fetchSnippets } from '@services/snippet-service'
 import { X } from 'lucide-react'
-import { useLoaderData } from 'react-router'
+import { isRouteErrorResponse, useRouteError } from 'react-router'
 
 export const loaderHome = async () => {
-  const snippets = await fetchSnippets()
-
-  return { snippets }
+  try {
+    const snippets = await fetchSnippets()
+    return { snippets }
+  } catch (error) {
+    console.log('Error loading snippets:', error)
+    throw Response.json({ message: 'Failed to load snippets' }, { status: 500 })
+  }
 }
 
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div className="p-6">
+        <h1 className="text-2xl font-bold text-red-600">
+          Error {error.status}
+        </h1>
+        <p className="mt-2 text-gray-700">
+          {error.data?.message ?? 'Something went wrong.'}
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold text-red-600">Unexpected Error</h1>
+      <p className="mt-2 text-gray-700">
+        {(error as Error)?.message ?? 'Unknown error occurred.'}
+      </p>
+    </div>
+  )
+}
+
+const EmptyState = () => (
+  <div className="flex flex-col items-center justify-center flex-1">
+    <h1 className="text-3xl font-bold mb-4">No Snippets Found</h1>
+    <p className="text-gray-500">Create your first snippet!</p>
+  </div>
+)
+
 const Home: React.FC = () => {
-  const { snippets } = useLoaderData<{
-    snippets: Snippet[]
-  }>()
-  const { parsedSnippets, hasParsedSnippets, setParsedSnippets } =
-    useParsedSnippets({ snippets })
+  const { isEmpty, isLoading, parsedSnippets, setParsedSnippets } =
+    useParsedSnippets()
   const { isModalOpen, closeModal, handleConfirmDelete, snippetToDelete } =
     useModal()
+
+  if (isLoading) {
+    return <SnippetsSkeleton />
+  }
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">Snippets</h1>
-      {parsedSnippets.length > 0 ? (
-        hasParsedSnippets ? (
-          <MasonryLayout items={parsedSnippets}>
-            {item => (
-              <SnippetCard
-                key={item.snippetId}
-                snippetId={item.snippetId}
-                title={item.title}
-                code={item.code}
-                rawCode={item.rawCode}
-              />
-            )}
-          </MasonryLayout>
-        ) : (
-          <SnippetsSkeleton />
-        )
+      {!isEmpty ? (
+        <MasonryLayout items={parsedSnippets}>
+          {item => (
+            <SnippetCard
+              key={item.snippetId}
+              snippetId={item.snippetId}
+              title={item.title}
+              code={item.code}
+              rawCode={item.rawCode}
+            />
+          )}
+        </MasonryLayout>
       ) : (
-        <div className="flex flex-col items-center justify-center flex-1">
-          <h1 className="text-3xl font-bold mb-4">No Snippets Found</h1>
-          <p className="text-gray-500">Create your first snippet!</p>
-        </div>
+        <EmptyState />
       )}
 
       <Modal
