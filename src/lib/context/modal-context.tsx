@@ -40,7 +40,7 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
 
     toast.promise(deleteSnippet(snippetToDelete.snippetId), {
       loading: 'Deleting snippet...',
-      success: () => {
+      success: async () => {
         handleCloseModal()
         return 'Snippet deleted successfully'
       },
