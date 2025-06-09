@@ -1,11 +1,11 @@
 import MainLayout from '@layouts/main-layout'
 import CreateSnippet, { createSnippetLoader } from '@pages/create-snippet'
-import Home, { loaderHome } from '@pages/home'
+import Home, { ErrorBoundary, loaderHome } from '@pages/home'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@styles/globals.css'
-import { EditorCodeProvider } from '@lib/context/editorCodeContext'
+import { EditorCodeProvider } from '@lib/context/editor-code-context'
 import { FormSnippetProvider } from '@lib/context/form-snippet-context'
 import { ModalProvider } from '@lib/context/modal-context'
 import { Toaster } from 'sonner'
@@ -19,6 +19,7 @@ const routes = createBrowserRouter([
         index: true,
         Component: Home,
         loader: loaderHome,
+        errorElement: <ErrorBoundary />,
         HydrateFallback: () => <div>Loading...</div>
       },
       {
