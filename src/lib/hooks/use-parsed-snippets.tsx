@@ -1,37 +1,48 @@
+import { sleep } from '@lib/helpers/sleep'
 import type { ParsedSnippet, Snippet } from '@lib/types'
 import { useEffect, useState } from 'react'
+import { useLoaderData } from 'react-router'
 import { codeToHtml } from 'shiki'
 
-interface ParsedSnippetsProps {
-	snippets?: Snippet[]
+interface LoaderData {
+  snippets: Snippet[]
 }
 
-export const useParsedSnippets = ({ snippets = [] }: ParsedSnippetsProps) => {
-	const [parsedSnippets, setParsedSnippets] = useState<ParsedSnippet[]>([])
+export const useParsedSnippets = () => {
+  const { snippets } = useLoaderData<LoaderData>()
+  const [parsedSnippets, setParsedSnippets] = useState<ParsedSnippet[]>([])
+  const [isLoading, setIsLoading] = useState(snippets.length > 0)
 
-	useEffect(() => {
-		const loadAllSnippets = async () => {
-			const result = await Promise.all(
-				snippets.map(async snippet => {
-					const html = await codeToHtml(snippet.code, {
-						theme: 'github-dark-default',
-						lang: snippet.fkLanguageId
-					})
-					return { ...snippet, code: html, rawCode: snippet.code }
-				})
-			)
+  useEffect(() => {
+    if (snippets.length === 0) return
 
-			setParsedSnippets(result)
-		}
+    const loadAllSnippets = async () => {
+      setIsLoading(true)
 
-		loadAllSnippets()
-	}, [snippets])
+      await sleep(1000) // Simulate loading delay
+      const result = await Promise.all(
+        snippets.map(async snippet => {
+          const html = await codeToHtml(snippet.code, {
+            theme: 'github-dark-default',
+            lang: snippet.fkLanguageId
+          })
+          return { ...snippet, code: html, rawCode: snippet.code }
+        })
+      )
 
-	const hasParsedSnippets = parsedSnippets.length > 0
+      setParsedSnippets(result)
+      setIsLoading(false)
+    }
 
-	return {
-		parsedSnippets,
-		setParsedSnippets,
-		hasParsedSnippets
-	}
+    loadAllSnippets()
+  }, [snippets])
+
+  const isEmpty = parsedSnippets.length === 0
+
+  return {
+    isEmpty,
+    isLoading,
+    parsedSnippets,
+    setParsedSnippets
+  }
 }
