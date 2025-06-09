@@ -1,4 +1,4 @@
-import { db } from '@lib/constants/dbConfig'
+import { db } from '@lib/constants/db-config'
 import type { Snippet } from '@lib/types'
 
 export const fetchSnippets = async (): Promise<Snippet[]> => {
@@ -6,9 +6,11 @@ export const fetchSnippets = async (): Promise<Snippet[]> => {
     const result = await db.select<Snippet[]>(`
       SELECT s.snippet_id AS snippetId, s.title, s.description, s.code, s.is_favorite AS isFavorite, s.created_at AS createdAt, l.language_id AS fkLanguageId
       FROM snippets s
-      JOIN languages l ON s.fk_language_id = l.language_id
+      JOIN languages l ON s.fk_language_id = l.languageid
       ORDER BY created_at DESC;
     `)
+
+    console.log('Fetched snippets:', result)
 
     return result
   } catch (error) {
