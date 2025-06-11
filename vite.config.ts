@@ -7,23 +7,10 @@ const host = process.env.TAURI_DEV_HOST
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  esbuild: {
-    drop: ['console', 'debugger']
-  },
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      //'@components': path.resolve(__dirname, 'src/components'),
-      //'@layouts': path.resolve(__dirname, 'src/components/layouts'),
-      //'@assets': path.resolve(__dirname, 'src/assets'),
-      //'@hooks': path.resolve(__dirname, 'src/lib/hooks'),
-      //'@lib': path.resolve(__dirname, 'src/lib'),
-      //'@helpers': path.resolve(__dirname, 'src/lib/helpers'),
-      //'@types': path.resolve(__dirname, 'src/lib/types'),
-      //'@services': path.resolve(__dirname, 'src/services'),
-      //'@store': path.resolve(__dirname, 'src/lib/store'),
-      //'@styles': path.resolve(__dirname, 'src/styles'),
-      //'@icons': path.resolve(__dirname, 'src/components/icons'),
+      '@routes': path.resolve(__dirname, 'src/routes'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@features': path.resolve(__dirname, 'src/features'),
       '@shared': path.resolve(__dirname, 'src/shared')
