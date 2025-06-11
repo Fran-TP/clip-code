@@ -5,7 +5,7 @@ export interface Snippet {
   title: string
   description: string
   code: string
-  isFavorite?: boolean
+  isFavorite: boolean
   createdAt?: Date
   fkLanguageId: string
 }
