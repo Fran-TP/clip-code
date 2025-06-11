@@ -1,4 +1,3 @@
-import { sleep } from '@lib/helpers/sleep'
 import type { ParsedSnippet, Snippet } from '@lib/types'
 import { useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router'
@@ -19,7 +18,6 @@ export const useParsedSnippets = () => {
     const loadAllSnippets = async () => {
       setIsLoading(true)
 
-      await sleep(1000) // Simulate loading delay
       const result = await Promise.all(
         snippets.map(async snippet => {
           const html = await codeToHtml(snippet.code, {
