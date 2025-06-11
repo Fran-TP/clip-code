@@ -1,5 +1,5 @@
+import SnippetCardSkeleton from '@features/snippets/skeletons/snippet-card-skeleton'
 import MasonryLayout from '@shared/ui/components/atoms/masonry'
-import SnippetCardSkeleton from './snippet-card-skeleton'
 
 const SnippetsSkeleton: React.FC = () => {
   const skeletonSizes: Array<'normal' | 'medium' | 'large' | 'xlarge'> = [
