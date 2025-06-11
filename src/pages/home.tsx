@@ -18,7 +18,7 @@ export const loaderHome = async () => {
   }
 }
 
-export function ErrorBoundary() {
+export const ErrorBoundary = () => {
   const error = useRouteError()
 
   if (isRouteErrorResponse(error)) {
