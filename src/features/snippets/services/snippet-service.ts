@@ -10,16 +10,17 @@ export const fetchSnippets = async (): Promise<Snippet[]> => {
       ORDER BY created_at DESC;
     `)
 
-    console.log('Fetched snippets:', result)
-
     return result
   } catch (error) {
-    console.error('Error fetching snippets:', error)
-    throw error
+    throw new Error('Failed to fetch snippets')
   }
 }
 
-export const createSnippet = async (snippet: Snippet): Promise<boolean> => {
+type SnippetToCreate = Omit<Snippet, 'snippetId' | 'createdAt' | 'isFavorite'>
+
+export const createSnippet = async (
+  snippet: SnippetToCreate
+): Promise<boolean> => {
   try {
     const result = await db.execute(
       'INSERT INTO snippets(title, description, code, fk_language_id) VALUES ($1, $2, $3, $4)',
