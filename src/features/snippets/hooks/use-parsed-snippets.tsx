@@ -1,4 +1,4 @@
-import type { ParsedSnippet, Snippet } from '@lib/types'
+import type { ParsedSnippet, Snippet } from '@features/snippets/types'
 import { useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router'
 import { codeToHtml } from 'shiki'
