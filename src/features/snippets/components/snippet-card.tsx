@@ -3,11 +3,14 @@ import AnimatedIcon from '@shared/ui/components/atoms/animated-icon'
 import IconButton from '@shared/ui/components/atoms/icon-button'
 import { Check, Copy, Star, Trash } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import updateFavoriteSnippet from '../services/update-favorite-snippet'
 
 interface SnippetCardProps {
   snippetId: string
   title: string
   code: string
+  isFavorite: boolean
   rawCode: string
 }
 
@@ -15,9 +18,11 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
   snippetId,
   title,
   rawCode,
+  isFavorite,
   code
 }) => {
   const [isCopied, setIsCopied] = useState(false)
+  const [isFavoriteState, setIsFavoriteState] = useState(isFavorite)
   const { showModal } = useModal()
 
   const handleClickCopy = () => {
@@ -25,6 +30,17 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
 
     setIsCopied(true)
     setTimeout(() => setIsCopied(false), 600)
+  }
+
+  const handleClickFavorite = async () => {
+    const result = await updateFavoriteSnippet(snippetId, !isFavorite)
+
+    if (result.success) {
+      setIsFavoriteState(!isFavoriteState)
+      toast.success(result.message)
+    } else {
+      toast.error(result.message)
+    }
   }
 
   return (
@@ -41,8 +57,16 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
               )}
             </AnimatedIcon>
           </IconButton>
-          <IconButton>
-            <Star className="opacity-70 group-hover:opacity-100 size-4" />
+          <IconButton onClick={handleClickFavorite}>
+            <AnimatedIcon
+              keyAnimation={isFavoriteState ? 'favorite' : 'not-favorite'}
+            >
+              {isFavoriteState ? (
+                <Star className="opacity-70 group-hover:opacity-100 size-4 fill-gray-200" />
+              ) : (
+                <Star className="opacity-70 group-hover:opacity-100 size-4" />
+              )}
+            </AnimatedIcon>
           </IconButton>
           <IconButton onClick={showModal({ snippetId, title })}>
             <Trash className="opacity-70 group-hover:opacity-100 size-4" />
