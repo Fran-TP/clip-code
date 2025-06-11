@@ -6,7 +6,7 @@ export const fetchSnippets = async (): Promise<Snippet[]> => {
     const result = await db.select<Snippet[]>(`
       SELECT s.snippet_id AS snippetId, s.title, s.description, s.code, s.is_favorite AS isFavorite, s.created_at AS createdAt, l.language_id AS fkLanguageId
       FROM snippets s
-      JOIN languages l ON s.fk_language_id = l.languageid
+      JOIN languages l ON s.fk_language_id = l.language_id
       ORDER BY created_at DESC;
     `)
 
