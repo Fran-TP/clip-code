@@ -1,20 +1,6 @@
 import EditorCode from '@features/editor-code/components/editor-code'
 import FormSnippet from '@features/snippets/components/form-snippet'
-import fetchCategoriesWithLanguages from '@features/snippets/services/fetch-categories-with-languages'
-import fetchLanguages from '@features/snippets/services/fetch-languages'
 import { useFormSnippet } from '@shared/context/snippet-form-context'
-
-export const createSnippetLoader = async () => {
-  const [categoriesWithLanguages, languages] = await Promise.all([
-    fetchCategoriesWithLanguages(),
-    fetchLanguages()
-  ])
-
-  return {
-    categoriesWithLanguages,
-    languages
-  }
-}
 
 const CreateSnippet: React.FC = () => {
   const { formSnippet } = useFormSnippet()
