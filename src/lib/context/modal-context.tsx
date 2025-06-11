@@ -2,7 +2,7 @@ import { deleteSnippet } from '@services/snippet-service'
 import { createContext, useContext, useState } from 'react'
 import { toast } from 'sonner'
 
-type SnippetToDelete = {
+interface SnippetToDelete {
   snippetId: string
   title: string
 }
