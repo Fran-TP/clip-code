@@ -1,4 +1,4 @@
-import GitHub from '@components/icons/github'
+import GitHub from '@shared/ui/icons/github'
 import clsx from 'clsx'
 import { House, Plus } from 'lucide-react'
 import { Link, useLocation } from 'react-router'

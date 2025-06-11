@@ -2,9 +2,9 @@ import {
   OPTIONS,
   initializeMonacoEditor,
   loadAdditionalLanguage
-} from '@lib/constants/monaco-config'
-import { useFormSnippet } from '@lib/context/form-snippet-context'
+} from '@features/editor-code/config/monaco-config'
 import Editor, { type Monaco, type BeforeMount } from '@monaco-editor/react'
+import { useFormSnippet } from '@shared/context/snippet-form-context'
 import { useEffect, useRef, useState } from 'react'
 import { createHighlighter } from 'shiki'
 

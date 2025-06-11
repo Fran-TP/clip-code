@@ -1,4 +1,4 @@
-import { deleteSnippet } from '@services/snippet-service'
+import { deleteSnippet } from '@features/snippets/services/snippet-service'
 import { createContext, useContext, useState } from 'react'
 import { toast } from 'sonner'
 

@@ -9,20 +9,10 @@
 		"baseUrl": ".",
 		/* Paths for module resolution */
 		"paths": {
-			"@components/*": ["src/components/*"],
-			"@assets/*": ["src/assets/*"],
-			"@lib/*": ["src/lib/*"],
-			"@hooks/*": ["src/lib/hooks/*"],
-			"@layouts/*": ["src/components/layouts/*"],
 			"@pages/*": ["src/pages/*"],
-			"@styles/*": ["src/styles/*"],
-			"@stores/*": ["src/lib/stores/*"],
-			"@services/*": ["src/services/*"],
-			"@helpers/*": ["src/lib/helpers/*"],
-			"@types/*": ["src/lib/types/*"],
-			"@icons/*": ["src/components/icons/*"]
+			"@features/*": ["src/features/*"],
+			"@shared/*": ["src/shared/*"]
 		},
-
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
@@ -30,7 +20,6 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
-
 		/* Linting */
 		"strict": true,
 		"noUnusedLocals": true,

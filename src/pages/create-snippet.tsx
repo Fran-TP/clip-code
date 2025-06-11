@@ -1,8 +1,8 @@
-import EditorCode from '@components/molecules/editor-code'
-import FormSnippet from '@components/molecules/form-snippet'
-import { useFormSnippet } from '@lib/context/form-snippet-context'
-import fetchCategoriesWithLanguages from '@services/fetch-categories-with-languages'
-import fetchLanguages from '@services/fetch-languages'
+import EditorCode from '@features/editor-code/components/editor-code'
+import FormSnippet from '@features/snippets/components/form-snippet'
+import fetchCategoriesWithLanguages from '@features/snippets/services/fetch-categories-with-languages'
+import fetchLanguages from '@features/snippets/services/fetch-languages'
+import { useFormSnippet } from '@shared/context/snippet-form-context'
 
 export const createSnippetLoader = async () => {
   const [categoriesWithLanguages, languages] = await Promise.all([

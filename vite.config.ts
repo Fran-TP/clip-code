@@ -13,18 +13,20 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@layouts': path.resolve(__dirname, 'src/components/layouts'),
-      '@assets': path.resolve(__dirname, 'src/assets'),
-      '@hooks': path.resolve(__dirname, 'src/lib/hooks'),
-      '@lib': path.resolve(__dirname, 'src/lib'),
-      '@helpers': path.resolve(__dirname, 'src/lib/helpers'),
-      '@types': path.resolve(__dirname, 'src/lib/types'),
+      //'@components': path.resolve(__dirname, 'src/components'),
+      //'@layouts': path.resolve(__dirname, 'src/components/layouts'),
+      //'@assets': path.resolve(__dirname, 'src/assets'),
+      //'@hooks': path.resolve(__dirname, 'src/lib/hooks'),
+      //'@lib': path.resolve(__dirname, 'src/lib'),
+      //'@helpers': path.resolve(__dirname, 'src/lib/helpers'),
+      //'@types': path.resolve(__dirname, 'src/lib/types'),
+      //'@services': path.resolve(__dirname, 'src/services'),
+      //'@store': path.resolve(__dirname, 'src/lib/store'),
+      //'@styles': path.resolve(__dirname, 'src/styles'),
+      //'@icons': path.resolve(__dirname, 'src/components/icons'),
       '@pages': path.resolve(__dirname, 'src/pages'),
-      '@services': path.resolve(__dirname, 'src/services'),
-      '@store': path.resolve(__dirname, 'src/lib/store'),
-      '@styles': path.resolve(__dirname, 'src/styles'),
-      '@icons': path.resolve(__dirname, 'src/components/icons')
+      '@features': path.resolve(__dirname, 'src/features'),
+      '@shared': path.resolve(__dirname, 'src/shared')
     }
   },
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`

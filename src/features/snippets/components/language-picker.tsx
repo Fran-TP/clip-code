@@ -1,4 +1,7 @@
-import type { CategoriesWithLanguagesMap, Languages } from '@lib/types'
+import type {
+  CategoriesWithLanguagesMap,
+  Languages
+} from '@features/snippets/types'
 import clsx from 'clsx'
 import { Check } from 'lucide-react'
 import type { BundledLanguage } from 'shiki'

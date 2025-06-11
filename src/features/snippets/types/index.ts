@@ -23,7 +23,7 @@ export interface CategoriesWithLanguages extends Languages {
 export interface CategoriesWithLanguagesMap
   extends Partial<Record<string, CategoriesWithLanguages[]>> {}
 
-export type LoaderDataCreateSnippet = {
+export interface LoaderDataCreateSnippet {
   categoriesWithLanguages: CategoriesWithLanguagesMap
   languages: Languages[]
 }

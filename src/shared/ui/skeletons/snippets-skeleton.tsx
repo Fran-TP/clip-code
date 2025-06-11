@@ -1,4 +1,4 @@
-import MasonryLayout from '@components/atoms/masonry'
+import MasonryLayout from '@shared/ui/components/atoms/masonry'
 import SnippetCardSkeleton from './snippet-card-skeleton'
 
 const SnippetsSkeleton: React.FC = () => {

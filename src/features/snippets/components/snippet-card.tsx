@@ -1,6 +1,6 @@
-import AnimatedIcon from '@components/atoms/animated-icon'
-import IconButton from '@components/atoms/icon-button'
-import { useModal } from '@lib/context/modal-context'
+import { useModal } from '@features/snippets/context/modal-context'
+import AnimatedIcon from '@shared/ui/components/atoms/animated-icon'
+import IconButton from '@shared/ui/components/atoms/icon-button'
 import { Check, Copy, Star, Trash } from 'lucide-react'
 import { useState } from 'react'
 

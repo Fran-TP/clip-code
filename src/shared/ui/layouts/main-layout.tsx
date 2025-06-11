@@ -1,6 +1,6 @@
-import Progressbar from '@components/atoms/progressbar'
-import Header from '@components/molecules/header'
-import Sidebar from '@components/molecules/sidenav'
+import Progressbar from '@shared/ui/components/atoms/progressbar'
+import Header from '@shared/ui/components/molecules/header'
+import Sidebar from '@shared/ui/components/molecules/sidenav'
 import { AnimatePresence, motion } from 'motion/react'
 import { Outlet, useLocation } from 'react-router'
 

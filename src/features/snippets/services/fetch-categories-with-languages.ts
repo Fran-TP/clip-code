@@ -1,8 +1,8 @@
-import { db } from '@lib/constants/db-config'
 import type {
   CategoriesWithLanguages,
   CategoriesWithLanguagesMap
-} from '@lib/types'
+} from '@features/snippets/types'
+import { db } from '@shared/config/db-config'
 
 const fetchCategoriesWithLanguages =
   async (): Promise<CategoriesWithLanguagesMap> => {

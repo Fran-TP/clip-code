@@ -1,5 +1,5 @@
-import { db } from '@lib/constants/db-config'
-import type { Languages } from '@lib/types'
+import type { Languages } from '@features/snippets/types'
+import { db } from '@shared/config/db-config'
 
 const fetchLanguages = (): Promise<Languages[]> => {
   const result = db.select<Languages[]>(`

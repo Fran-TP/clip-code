@@ -1,5 +1,5 @@
-import { db } from '@lib/constants/db-config'
-import type { Snippet } from '@lib/types'
+import type { Snippet } from '@features/snippets/types'
+import { db } from '@shared/config/db-config'
 
 export const fetchSnippets = async (): Promise<Snippet[]> => {
   try {
