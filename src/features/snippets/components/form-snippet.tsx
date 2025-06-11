@@ -33,7 +33,6 @@ const FormSnippet: React.FC = () => {
 
     const success = await createSnippet({
       ...formSnippet,
-      snippetId: crypto.randomUUID(),
       fkLanguageId: formSnippet.language
     })
 
