@@ -47,6 +47,7 @@ const Sidebar = () => {
       </nav>
       <Link
         to="https://github.com/Fran-TP/clip-code"
+        target="_blank"
         className="group p-2 bg-linear-45 from-gray-950 to-cyan-500 outline-base rounded-lg"
       >
         <GitHub className="size-6 opacity-70 group-hover:opacity-100 transition-opacity duration-200" />
