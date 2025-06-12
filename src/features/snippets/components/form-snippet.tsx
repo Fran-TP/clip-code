@@ -111,12 +111,13 @@ const FormSnippet: React.FC = () => {
           }}
         />
       </Label>
-      <Label htmlFor="language" className="inline-block mb-1">
+      <Label htmlFor="language-search" className="inline-block mb-1">
         Language
       </Label>
       <div className="border-2 border-gray-800 rounded-md flex flex-col divide-gray-800 divide-y-2 bg-base">
         <div className="p-3 relative">
           <Input
+            id="language-search"
             type="search"
             name="search"
             value={searchTerm}
