@@ -12,31 +12,31 @@ const SnippetList: React.FC = () => {
     return <SnippetsSkeleton />
   }
 
-	return (
-		<>
-			<h1 className="text-3xl font-bold mb-4">Snippets</h1>
-			{!isEmpty ? (
-				<div>
-					<MasonryLayout items={parsedSnippets}>
-						{item => (
-							<SnippetCard
-								key={item.snippetId}
-								snippetId={item.snippetId}
-								title={item.title}
-								code={item.code}
-								isFavorite={item.isFavorite}
-								rawCode={item.rawCode}
-							/>
-						)}
-					</MasonryLayout>
-					<div id="observer-target" />
-				</div>
-			) : (
-				<EmptyState />
-			)}
-			<DeleteSnippetModal />
-		</>
-	)
+  return (
+    <>
+      <h1 className="text-3xl font-bold mb-4">Snippets</h1>
+      {!isEmpty ? (
+        <>
+          <MasonryLayout items={parsedSnippets}>
+            {item => (
+              <SnippetCard
+                key={item.snippetId}
+                snippetId={item.snippetId}
+                title={item.title}
+                code={item.code}
+                isFavorite={item.isFavorite}
+                rawCode={item.rawCode}
+              />
+            )}
+          </MasonryLayout>
+          <div id="observer-target" />
+        </>
+      ) : (
+        <EmptyState />
+      )}
+      <DeleteSnippetModal />
+    </>
+  )
 }
 
 export default SnippetList
