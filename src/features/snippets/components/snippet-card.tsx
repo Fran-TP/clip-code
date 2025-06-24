@@ -2,7 +2,7 @@ import { useModal } from '@features/snippets/context/modal-context'
 import AnimatedIcon from '@shared/ui/components/atoms/animated-icon'
 import IconButton from '@shared/ui/components/atoms/icon-button'
 import { Check, Copy, Star, Trash } from 'lucide-react'
-import { useState } from 'react'
+import { type FC, useState } from 'react'
 import { toast } from 'sonner'
 import updateFavoriteSnippet from '../services/update-favorite-snippet'
 
@@ -14,13 +14,7 @@ interface SnippetCardProps {
   rawCode: string
 }
 
-const SnippetCard: React.FC<SnippetCardProps> = ({
-  snippetId,
-  title,
-  rawCode,
-  isFavorite,
-  code
-}) => {
+const SnippetCard: FC<SnippetCardProps> = ({ snippetId, title, rawCode, isFavorite, code }) => {
   const [isCopied, setIsCopied] = useState(false)
   const [isFavoriteState, setIsFavoriteState] = useState(isFavorite)
   const { showModal } = useModal()
@@ -58,9 +52,7 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
             </AnimatedIcon>
           </IconButton>
           <IconButton onClick={handleClickFavorite}>
-            <AnimatedIcon
-              keyAnimation={isFavoriteState ? 'favorite' : 'not-favorite'}
-            >
+            <AnimatedIcon keyAnimation={isFavoriteState ? 'favorite' : 'not-favorite'}>
               {isFavoriteState ? (
                 <Star className="opacity-70 group-hover:opacity-100 size-4 fill-gray-200" />
               ) : (
@@ -73,10 +65,7 @@ const SnippetCard: React.FC<SnippetCardProps> = ({
           </IconButton>
         </div>
       </header>
-      <div
-        className="overflow-clip"
-        dangerouslySetInnerHTML={{ __html: code }}
-      />
+      <div className="overflow-clip" dangerouslySetInnerHTML={{ __html: code }} />
     </article>
   )
 }
