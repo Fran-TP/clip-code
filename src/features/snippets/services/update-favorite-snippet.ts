@@ -1,9 +1,6 @@
 import { db } from '@shared/config/db-config'
 
-const updateFavoriteSnippet = async (
-  snippetId: string,
-  isFavorite: boolean
-) => {
+const updateFavoriteSnippet = async (snippetId: number, isFavorite: boolean) => {
   try {
     const result = await db.execute(
       `
