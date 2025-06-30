@@ -7,7 +7,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@shared/styles/globals.css'
 import createSnippetLoader from '@routes/create-snippet/loader'
 import ErrorHomeBoundary from '@routes/home/error'
-import loaderHome from '@routes/home/loader'
+// import loaderHome from '@routes/home/loader'
 import { FormSnippetProvider } from '@shared/context/snippet-form-context'
 import { Toaster } from 'sonner'
 
@@ -19,7 +19,6 @@ const routes = createBrowserRouter([
       {
         index: true,
         Component: Home,
-        loader: loaderHome,
         errorElement: <ErrorHomeBoundary />,
         HydrateFallback: () => <div>Loading...</div>
       },
