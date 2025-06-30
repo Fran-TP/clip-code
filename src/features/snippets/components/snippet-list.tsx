@@ -4,9 +4,20 @@ import SnippetCard from '@features/snippets/components/snippet-card'
 import { useParsedSnippets } from '@features/snippets/context/parsed-snippet-context'
 import SnippetsSkeleton from '@features/snippets/skeletons/snippets-skeleton'
 import MasonryLayout from '@shared/ui/components/atoms/masonry'
+import { useEffect } from 'react'
+import { useIntersectionObserver } from 'react-intersection-observer-hook'
 
 const SnippetList: React.FC = () => {
-  const { isEmpty, isLoading, parsedSnippets } = useParsedSnippets()
+  const { isEmpty, isLoading, parsedSnippets, handleNextPage } = useParsedSnippets()
+  const [ref, { entry }] = useIntersectionObserver({ rootMargin: '100px' })
+  const isVisible = entry?.isIntersecting
+  console.info('isVisible', isVisible, parsedSnippets)
+
+  useEffect(() => {
+    if (isVisible) {
+      handleNextPage()
+    }
+  }, [handleNextPage, isVisible])
 
   if (isLoading) {
     return <SnippetsSkeleton />
@@ -14,7 +25,7 @@ const SnippetList: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-4">Snippets</h1>
+      <h1 className="mb-4 font-bold text-3xl">Snippets</h1>
       {!isEmpty ? (
         <>
           <MasonryLayout items={parsedSnippets}>
@@ -29,7 +40,7 @@ const SnippetList: React.FC = () => {
               />
             )}
           </MasonryLayout>
-          <div id="observer-target" />
+          <div ref={ref} id="observer-target" />
         </>
       ) : (
         <EmptyState />
