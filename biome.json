@@ -22,6 +22,16 @@
 			"recommended": true,
 			"security": {
 				"noDangerouslySetInnerHtml": "off"
+			},
+			"nursery": {
+				"useSortedClasses": {
+					"level": "warn",
+					"fix": "safe",
+					"options": {
+						"attributes": ["className", "class"],
+						"functions": ["clsx", "cn"]
+					}
+				}
 			}
 		}
 	},
@@ -33,6 +43,13 @@
 			"semicolons": "asNeeded",
 			"indentStyle": "space",
 			"lineWidth": 100
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": true,
+			"trailingCommas": "none",
+			"indentStyle": "tab"
 		}
 	}
 }
