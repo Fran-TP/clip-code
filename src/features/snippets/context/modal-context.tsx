@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react'
 import { toast } from 'sonner'
 
 interface SnippetToDelete {
-  snippetId: string
+  snippetId: number
   title: string
 }
 
@@ -23,8 +23,7 @@ const modalContext = createContext<ModalContextProps | null>(null)
 
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [snippetToDelete, setSnippetToDelete] =
-    useState<SnippetToDelete | null>(null)
+  const [snippetToDelete, setSnippetToDelete] = useState<SnippetToDelete | null>(null)
 
   const handleOpenModal = (snippetToDelete: SnippetToDelete) => () => {
     setSnippetToDelete(snippetToDelete)
