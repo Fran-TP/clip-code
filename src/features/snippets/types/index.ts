@@ -1,7 +1,7 @@
 import type { BundledLanguage } from 'shiki'
 
 export interface Snippet {
-  snippetId: string
+  snippetId: number
   title: string
   description: string
   code: string
