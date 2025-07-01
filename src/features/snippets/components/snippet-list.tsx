@@ -8,24 +8,22 @@ import { useEffect } from 'react'
 import { useIntersectionObserver } from 'react-intersection-observer-hook'
 
 const SnippetList: React.FC = () => {
-  const { isEmpty, isLoading, parsedSnippets, handleNextPage } = useParsedSnippets()
+  const { isEmpty, isLoading, parsedSnippets, handleNextPage, hasMore } = useParsedSnippets()
   const [ref, { entry }] = useIntersectionObserver({ rootMargin: '100px' })
   const isVisible = entry?.isIntersecting
-  console.info('isVisible', isVisible, parsedSnippets)
 
   useEffect(() => {
-    if (isVisible) {
+    if (isVisible && !isLoading) {
       handleNextPage()
     }
-  }, [handleNextPage, isVisible])
+  }, [handleNextPage, isVisible, isLoading])
 
-  if (isLoading) {
-    return <SnippetsSkeleton />
+  if (!isLoading && isEmpty) {
+    return <EmptyState />
   }
 
   return (
     <>
-      <h1 className="mb-4 font-bold text-3xl">Snippets</h1>
       {!isEmpty ? (
         <>
           <MasonryLayout items={parsedSnippets}>
@@ -40,11 +38,14 @@ const SnippetList: React.FC = () => {
               />
             )}
           </MasonryLayout>
-          <div ref={ref} id="observer-target" />
+          {isLoading && hasMore ? (
+            <div className="mt-10 text-center text-gray-600 text-sm">Loading more photos...</div>
+          ) : null}
         </>
-      ) : (
-        <EmptyState />
-      )}
+      ) : isLoading ? (
+        <SnippetsSkeleton />
+      ) : null}
+      {!isLoading && hasMore ? <div id="visor" ref={ref} /> : null}
       <DeleteSnippetModal />
     </>
   )
