@@ -1,6 +1,6 @@
+import { fetchPaginatedSnippets } from '@features/snippets/services/snippet-service'
 import type { ParsedSnippet } from '@features/snippets/types'
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { fetchPaginatedSnippets } from '../services/snippet-service'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 interface ParsedSnippetContextProps {
   parsedSnippets: ParsedSnippet[]
@@ -26,17 +26,16 @@ export const ParsedSnippetProvider = ({ children }: ParsedSnippetPropviderProps)
 
   const seemCursors = useRef<Set<number | null>>(new Set())
 
-  const handleNextPage = useCallback(() => {
+  const handleNextPage = () => {
     if (!hasMore || isLoading) return
 
     setCursor(nextCursor)
-  }, [hasMore, isLoading, nextCursor])
+  }
 
   useEffect(() => {
     if (seemCursors.current.has(cursor)) return
     seemCursors.current.add(cursor)
 
-    console.log('Fetching snippets with cursor:', cursor)
     setIsLoading(true)
     fetchPaginatedSnippets(cursor, 15)
       .then(async ({ snippets: newSnippets, hasMore, nextCursor }) => {
@@ -46,7 +45,6 @@ export const ParsedSnippetProvider = ({ children }: ParsedSnippetPropviderProps)
       })
       .catch(error => {
         console.error('Error fetching snippets:', error)
-        throw new Error(error)
       })
       .finally(() => {
         setIsLoading(false)
