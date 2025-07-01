@@ -17,8 +17,7 @@ const FormSnippet: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('General')
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { categoriesWithLanguages, languages } =
-    useLoaderData<LoaderDataCreateSnippet>()
+  const { categoriesWithLanguages, languages } = useLoaderData<LoaderDataCreateSnippet>()
   const { formSnippet, setFormSnippet } = useFormSnippet()
 
   const fuse = new Fuse(languages, {
@@ -99,7 +98,7 @@ const FormSnippet: React.FC = () => {
           name="description"
           value={formSnippet.description}
           placeholder="Description of the snippet"
-          className="border-2 border-gray-800 field-sizing-content resize-none px-3 bg-gray-950 py-2 rounded-sm outline-2 outline-transparent focus-visible:outline-cyan-500 transition-colors duration-200"
+          className="field-sizing-content resize-none rounded-sm border-2 border-gray-800 bg-gray-950 px-3 py-2 outline-2 outline-transparent transition-colors duration-200 focus-visible:outline-cyan-500"
           required
           onChange={event => {
             const value = event.currentTarget.value
@@ -111,11 +110,11 @@ const FormSnippet: React.FC = () => {
           }}
         />
       </Label>
-      <Label htmlFor="language-search" className="inline-block mb-1">
+      <Label htmlFor="language-search" className="mb-1 inline-block">
         Language
       </Label>
-      <div className="border-2 border-gray-800 rounded-md flex flex-col divide-gray-800 divide-y-2 bg-base">
-        <div className="p-3 relative">
+      <div className="flex flex-col divide-y-2 divide-gray-800 rounded-md border-2 border-gray-800 bg-base">
+        <div className="relative p-3">
           <Input
             id="language-search"
             type="search"
@@ -126,7 +125,7 @@ const FormSnippet: React.FC = () => {
             onChange={handleSearchChange}
             className="peer w-full pl-8.5 text-sm"
           />
-          <Search className="absolute left-5 transform -translate-y-1/2 size-5 top-1/2 text-gray-200 opacity-70 peer-focus-visible:opacity-100 peer-focus-visible:text-cyan-500 transition-all" />
+          <Search className="-translate-y-1/2 absolute top-1/2 left-5 size-5 transform text-gray-200 opacity-70 transition-all peer-focus-visible:text-cyan-500 peer-focus-visible:opacity-100" />
         </div>
         <LanguagePicker
           categoriesWithLanguages={categoriesWithLanguages}
