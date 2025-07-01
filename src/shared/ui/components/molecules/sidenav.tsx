@@ -12,7 +12,7 @@ const Sidebar = () => {
   const { pathname } = useLocation()
 
   return (
-    <aside className="p-3 flex flex-col h-full items-center justify-between border-r-2 border-gray-800">
+    <aside className="sticky top-16 left-0 flex h-sidebar flex-col items-center justify-between border-gray-800 border-r-2 p-3">
       <nav>
         <ul className="flex flex-col items-center justify-center gap-2">
           {links.map(link => {
@@ -21,18 +21,12 @@ const Sidebar = () => {
             return (
               <li
                 key={link.name}
-                className={clsx(
-                  'text-gray-200 rounded-lg transition-all duration-200',
-                  {
-                    'bg-cyan-500 button-raised': pathname === link.path,
-                    'hover:bg-cyan-600': pathname !== link.path
-                  }
-                )}
+                className={clsx('rounded-lg text-gray-200 transition-all duration-200', {
+                  'button-raised bg-cyan-500': pathname === link.path,
+                  'hover:bg-cyan-600': pathname !== link.path
+                })}
               >
-                <Link
-                  to={link.path}
-                  className="p-2 inline-flex rounded-md outline-base"
-                >
+                <Link to={link.path} className="inline-flex rounded-md p-2 outline-base">
                   <Icon
                     className={clsx('stroke-gray-200', {
                       'opacity-80': pathname !== link.path,
@@ -48,9 +42,9 @@ const Sidebar = () => {
       <Link
         to="https://github.com/Fran-TP/clip-code"
         target="_blank"
-        className="group p-2 bg-linear-45 from-gray-950 to-cyan-500 outline-base rounded-lg"
+        className="group rounded-lg bg-linear-45 from-gray-950 to-cyan-500 p-2 outline-base"
       >
-        <GitHub className="size-6 opacity-70 group-hover:opacity-100 transition-opacity duration-200" />
+        <GitHub className="size-6 opacity-70 transition-opacity duration-200 group-hover:opacity-100" />
       </Link>
     </aside>
   )
