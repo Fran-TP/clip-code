@@ -8,17 +8,17 @@ const MainLayout: React.FC = () => {
   const { pathname } = useLocation()
 
   return (
-    <div className="flex flex-col min-h-screen h-screen text-gray-200 bg-gray-950">
+    <div className="flex h-screen min-h-screen flex-col text-gray-200">
       <Header />
       <Progressbar />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-x-clip">
         <Sidebar />
         <AnimatePresence mode="wait" initial={false}>
           <motion.main
             key={pathname}
             initial={{ x: 20 }}
             animate={{ x: 0 }}
-            className="flex flex-col flex-1 p-4 overflow-y-auto scroll-base"
+            className="flex flex-1 flex-col p-4"
           >
             <Outlet />
           </motion.main>
