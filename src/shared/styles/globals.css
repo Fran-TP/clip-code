@@ -48,6 +48,8 @@
 	--font-Poppins: "Poppins", system-ui, sans-serif, serif;
 	/* Colors */
 	--color-base: hsl(216, 28%, 7%);
+	/* custom heights */
+	--header-height: 4rem;
 }
 
 @utility button-raised {
@@ -73,6 +75,10 @@
 	--scroll-thumb-color: var(--color-base);
 
 	scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+}
+
+@utility h-sidebar {
+	height: calc(100dvh - var(--header-height));
 }
 
 .shiki {
