@@ -14,12 +14,9 @@ const SnippetsSkeleton: React.FC = () => {
     'xlarge'
   ]
   return (
-    <>
-      <h1 className="text-3xl font-bold mb-4">Snippets</h1>
-      <MasonryLayout items={skeletonSizes}>
-        {size => <SnippetCardSkeleton key={size} size={size} />}
-      </MasonryLayout>
-    </>
+    <MasonryLayout items={skeletonSizes}>
+      {size => <SnippetCardSkeleton key={size} size={size} />}
+    </MasonryLayout>
   )
 }
 
