@@ -95,7 +95,7 @@
 }
 
 dialog {
-	transition: opacity 0.5s, scale 0.5s, display 0.5s, overlay 0.5s;
+	transition: opacity 0.25s, scale 0.25s, display 0.25s, overlay 0.25s;
 	transition-behavior: allow-discrete;
 
 	opacity: 0;
@@ -113,7 +113,7 @@ dialog[open] {
 }
 
 dialog::backdrop {
-	transition: opacity 0.5s, display 0.5s, overlay 0.5s;
+	transition: opacity 0.25s;
 	transition-behavior: allow-discrete;
 
 	opacity: 0;
