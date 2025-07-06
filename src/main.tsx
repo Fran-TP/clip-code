@@ -7,7 +7,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router'
 import '@shared/styles/globals.css'
 import createSnippetLoader from '@routes/create-snippet/loader'
 import ErrorHomeBoundary from '@routes/home/error'
-// import loaderHome from '@routes/home/loader'
+import HomeLoader from '@routes/home/loader'
+import HomeLoading from '@routes/home/loading'
 import { FormSnippetProvider } from '@shared/context/snippet-form-context'
 import { Toaster } from 'sonner'
 
@@ -19,12 +20,17 @@ const routes = createBrowserRouter([
       {
         index: true,
         Component: Home,
+        loader: HomeLoader,
         errorElement: <ErrorHomeBoundary />,
-        HydrateFallback: () => <div>Loading...</div>
+        HydrateFallback: HomeLoading
       },
       {
         path: 'create',
-        Component: CreateSnippet,
+        Component: () => (
+          <FormSnippetProvider>
+            <CreateSnippet />
+          </FormSnippetProvider>
+        ),
         loader: createSnippetLoader,
         HydrateFallback: () => <div>Loading...</div>
       }
@@ -34,9 +40,7 @@ const routes = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <FormSnippetProvider>
-      <RouterProvider router={routes} />
-      <Toaster closeButton theme="dark" />
-    </FormSnippetProvider>
+    <RouterProvider router={routes} />
+    <Toaster closeButton theme="dark" />
   </React.StrictMode>
 )
