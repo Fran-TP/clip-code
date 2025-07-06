@@ -2,14 +2,16 @@ import DeleteSnippetModal from '@features/snippets/components/delete-snippet-mod
 import EmptyState from '@features/snippets/components/empty-state'
 import SnippetCard from '@features/snippets/components/snippet-card'
 import { useParsedSnippets } from '@features/snippets/context/parsed-snippet-context'
-import SnippetsSkeleton from '@features/snippets/skeletons/snippets-skeleton'
 import MasonryLayout from '@shared/ui/components/atoms/masonry'
 import { useEffect } from 'react'
 import { useIntersectionObserver } from 'react-intersection-observer-hook'
 
 const SnippetList: React.FC = () => {
-  const { isEmpty, isLoading, parsedSnippets, handleNextPage, hasMore } = useParsedSnippets()
-  const [ref, { entry }] = useIntersectionObserver({ rootMargin: '100px' })
+  const {
+    handleNextPage,
+    state: { isLoading, isEmpty, hasMore, snippets }
+  } = useParsedSnippets()
+  const [visorRef, { entry }] = useIntersectionObserver({ rootMargin: '100px' })
   const isVisible = entry?.isIntersecting
 
   useEffect(() => {
@@ -24,28 +26,18 @@ const SnippetList: React.FC = () => {
 
   return (
     <>
-      {!isEmpty ? (
-        <>
-          <MasonryLayout items={parsedSnippets}>
-            {item => (
-              <SnippetCard
-                key={item.snippetId}
-                snippetId={item.snippetId}
-                title={item.title}
-                code={item.code}
-                isFavorite={item.isFavorite}
-                rawCode={item.rawCode}
-              />
-            )}
-          </MasonryLayout>
-          {isLoading && hasMore ? (
-            <div className="mt-10 text-center text-gray-600 text-sm">Loading more photos...</div>
-          ) : null}
-        </>
-      ) : isLoading ? (
-        <SnippetsSkeleton />
-      ) : null}
-      {!isLoading && hasMore ? <div id="visor" ref={ref} /> : null}
+      <MasonryLayout items={snippets}>
+        {item => <SnippetCard {...item} key={item.snippetId} />}
+      </MasonryLayout>
+
+      {isLoading && hasMore && (
+        <div className="mt-10 text-center text-gray-600 text-sm">Loading more snippets...</div>
+      )}
+
+      {!isLoading && hasMore && (
+        <div id="visor" ref={visorRef} className="border-2 border-red-500" />
+      )}
+
       <DeleteSnippetModal />
     </>
   )
