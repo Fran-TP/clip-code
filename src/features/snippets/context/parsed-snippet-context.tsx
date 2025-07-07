@@ -1,7 +1,7 @@
 import { fetchPaginatedSnippets } from '@features/snippets/services/snippet-service'
 import type { ParsedSnippet } from '@features/snippets/types'
 import { sleep } from '@shared/utils/sleep'
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 
 interface State {
   snippets: ParsedSnippet[]
@@ -9,6 +9,7 @@ interface State {
   nextCursor: number | null
   isEmpty: boolean
   isLoading: boolean
+  isInitialLoading: boolean
   error: Error | null
 }
 
@@ -20,11 +21,6 @@ interface ParsedSnippetContextProps {
 
 interface ParsedSnippetPropviderProps {
   children: React.ReactNode
-  initialData: {
-    snippets: ParsedSnippet[]
-    hasMore: boolean
-    nextCursor: number | null
-  }
 }
 
 type Action =
@@ -62,6 +58,7 @@ const snippetReducer = (state: State, action: Action): State => {
       return {
         ...state,
         isLoading: false,
+        isInitialLoading: false,
         snippets: [...state.snippets, ...snippets],
         hasMore,
         nextCursor
@@ -83,21 +80,25 @@ const snippetReducer = (state: State, action: Action): State => {
 
 const ParsedSnippetContext = createContext<ParsedSnippetContextProps | null>(null)
 
-export const ParsedSnippetProvider = ({ children, initialData }: ParsedSnippetPropviderProps) => {
+export const ParsedSnippetProvider = ({ children }: ParsedSnippetPropviderProps) => {
   const [state, dispatch] = useReducer(snippetReducer, {
-    snippets: initialData.snippets,
-    hasMore: initialData.hasMore,
-    nextCursor: initialData.nextCursor,
-    isLoading: false,
-    isEmpty: initialData.snippets.length === 0,
+    snippets: [],
+    hasMore: false,
+    nextCursor: null,
+    isLoading: true,
+    isInitialLoading: true,
+    isEmpty: true,
     error: null
   })
+
+  useEffect(() => {
+    fetchNextPage(null)
+  }, [])
 
   const seemCursors = useRef<Set<number | null>>(new Set())
 
   const handleNextPage = () => {
     if (!state.hasMore || state.isLoading) return
-
     const { nextCursor } = state
     fetchNextPage(nextCursor)
   }
@@ -108,24 +109,26 @@ export const ParsedSnippetProvider = ({ children, initialData }: ParsedSnippetPr
 
   const fetchNextPage = async (cursor: number | null, perPage = 15) => {
     if (seemCursors.current.has(cursor)) return
+    seemCursors.current.add(cursor)
 
     try {
       dispatch({ type: 'FETCH_INIT' })
+      await sleep(5000)
       const result = await fetchPaginatedSnippets(cursor, perPage)
-
-      seemCursors.current.add(result.nextCursor)
 
       dispatch({
         type: 'FETCH_SUCCESS',
         payload: result
       })
     } catch (error) {
-      console.error('Error fetching paginated snippets:', error)
-      throw error
+      dispatch({
+        type: 'FETCH_FAILURE',
+        payload: { error: error instanceof Error ? error : new Error('Unknown error') }
+      })
     }
   }
 
-  const isEmpty = state.snippets.length === 0
+  const isEmpty = !state.isLoading && state.snippets.length === 0
 
   return (
     <ParsedSnippetContext.Provider
