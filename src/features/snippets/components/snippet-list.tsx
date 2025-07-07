@@ -2,6 +2,7 @@ import DeleteSnippetModal from '@features/snippets/components/delete-snippet-mod
 import EmptyState from '@features/snippets/components/empty-state'
 import SnippetCard from '@features/snippets/components/snippet-card'
 import { useParsedSnippets } from '@features/snippets/context/parsed-snippet-context'
+import SnippetsSkeleton from '@features/snippets/skeletons/snippets-skeleton'
 import MasonryLayout from '@shared/ui/components/atoms/masonry'
 import { useEffect } from 'react'
 import { useIntersectionObserver } from 'react-intersection-observer-hook'
@@ -9,7 +10,7 @@ import { useIntersectionObserver } from 'react-intersection-observer-hook'
 const SnippetList: React.FC = () => {
   const {
     handleNextPage,
-    state: { isLoading, isEmpty, hasMore, snippets }
+    state: { isLoading, isInitialLoading, isEmpty, hasMore, snippets, error }
   } = useParsedSnippets()
   const [visorRef, { entry }] = useIntersectionObserver({ rootMargin: '100px' })
   const isVisible = entry?.isIntersecting
@@ -20,12 +21,22 @@ const SnippetList: React.FC = () => {
     }
   }, [handleNextPage, isVisible, isLoading])
 
-  if (!isLoading && isEmpty) {
+  if (error) {
+    return (
+      <div className="mt-10 text-center text-red-500">
+        <p>Error loading snippets: {error.message}</p>
+      </div>
+    )
+  }
+
+  if (isEmpty) {
     return <EmptyState />
   }
 
   return (
     <>
+      {isInitialLoading && <SnippetsSkeleton />}
+
       <MasonryLayout items={snippets}>
         {item => <SnippetCard {...item} key={item.snippetId} />}
       </MasonryLayout>
@@ -34,7 +45,7 @@ const SnippetList: React.FC = () => {
         <div className="mt-10 text-center text-gray-600 text-sm">Loading more snippets...</div>
       )}
 
-      {!isLoading && hasMore && (
+      {!isLoading && hasMore && !isInitialLoading && (
         <div id="visor" ref={visorRef} className="border-2 border-red-500" />
       )}
 
