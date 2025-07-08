@@ -7,18 +7,16 @@ const CreateSnippet: React.FC = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-4">Create Snippet</h1>
-      <div className="grid flex-1 grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="border-2 border-gray-800 rounded-md px-4 py-2 flex flex-col gap-2 bg-base">
-          <h2 className="text-xl font-semibold">Snippet Details</h2>
+      <h1 className="mb-4 font-bold text-3xl">Create Snippet</h1>
+      <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="flex flex-col gap-2 rounded-md border-2 border-gray-800 bg-base px-4 py-2">
+          <h2 className="font-semibold text-xl">Snippet Details</h2>
           <FormSnippet />
         </div>
-        <div className="border-2 border-gray-800 overflow-clip rounded-md flex flex-col">
-          <div className="p-2 flex gap-2 items-center">
+        <div className="flex flex-col overflow-clip rounded-md border-2 border-gray-800">
+          <div className="flex items-center gap-2 p-2">
             <span className="text-sm">Language</span>
-            <span className="text-sm font-bold text-gray-500">
-              {formSnippet.language}
-            </span>
+            <span className="font-bold text-gray-500 text-sm">{formSnippet.language}</span>
           </div>
           <EditorCode />
         </div>
