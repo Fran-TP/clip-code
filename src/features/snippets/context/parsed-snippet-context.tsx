@@ -113,7 +113,6 @@ export const ParsedSnippetProvider = ({ children }: ParsedSnippetPropviderProps)
 
     try {
       dispatch({ type: 'FETCH_INIT' })
-      await sleep(5000)
       const result = await fetchPaginatedSnippets(cursor, perPage)
 
       dispatch({
