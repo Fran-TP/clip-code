@@ -3,17 +3,21 @@ import EmptyState from '@features/snippets/components/empty-state'
 import SnippetCard from '@features/snippets/components/snippet-card'
 import { useParsedSnippets } from '@features/snippets/context/parsed-snippet-context'
 import SnippetsSkeleton from '@features/snippets/skeletons/snippets-skeleton'
+import useIntersectionObserver from '@shared/hooks/use-intersetion-observer'
 import MasonryLayout from '@shared/ui/components/atoms/masonry'
-import { useEffect } from 'react'
-import { useIntersectionObserver } from 'react-intersection-observer-hook'
+import { useEffect, useRef } from 'react'
 
 const SnippetList: React.FC = () => {
   const {
     handleNextPage,
     state: { isLoading, isInitialLoading, isEmpty, hasMore, snippets, error }
   } = useParsedSnippets()
-  const [visorRef, { entry }] = useIntersectionObserver({ rootMargin: '100px' })
-  const isVisible = entry?.isIntersecting
+
+  const targetRef = useRef<HTMLDivElement | null>(null)
+  const { isIntersecting: isVisible } = useIntersectionObserver(targetRef, {
+    rootMargin: '200px',
+    threshold: 0
+  })
 
   useEffect(() => {
     if (isVisible && !isLoading) {
@@ -46,7 +50,7 @@ const SnippetList: React.FC = () => {
       )}
 
       {!isLoading && hasMore && !isInitialLoading && (
-        <div id="visor" ref={visorRef} className="border-2 border-red-500" />
+        <div id="visor" ref={targetRef} className="border-2 border-red-500" />
       )}
 
       <DeleteSnippetModal />
