@@ -1,6 +1,5 @@
 import { fetchPaginatedSnippets } from '@features/snippets/services/snippet-service'
 import type { ParsedSnippet } from '@features/snippets/types'
-import { sleep } from '@shared/utils/sleep'
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 
 interface State {
