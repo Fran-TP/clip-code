@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 
-interface UseIntersetionObserverProps<T> {
-  targetRef: React.RefObject<T | null>
-  options?: IntersectionObserverInit
-}
-
 const useIntersectionObserver = (
   targetRef: React.RefObject<HTMLDivElement | null>,
   options: IntersectionObserverInit = { threshold: 0.1 }
