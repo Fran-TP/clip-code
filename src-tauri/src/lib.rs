@@ -291,7 +291,7 @@ pub fn run() {
                 INSERT OR IGNORE INTO categories (name) VALUES ('Data Query');
                 INSERT OR IGNORE INTO categories (name) VALUES ('DSL');
             "#,
-            kind: MigrationKind::Up
+            kind: MigrationKind::Up,
         },
         Migration {
             version: 4,
@@ -620,11 +620,12 @@ pub fn run() {
                 INSERT OR IGNORE INTO languages_categories (fk_language_id, fk_category_id) VALUES ('xsl', (SELECT category_id FROM categories WHERE name = 'DSL'));
                 INSERT OR IGNORE INTO languages_categories (fk_language_id, fk_category_id) VALUES ('zenscript', (SELECT category_id FROM categories WHERE name = 'DSL'));
             "#,
-            kind: MigrationKind::Up
-        }
+            kind: MigrationKind::Up,
+        },
     ];
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(
             tauri_plugin_sql::Builder::default()
                 .add_migrations("sqlite:clipCode.db", migrations)
