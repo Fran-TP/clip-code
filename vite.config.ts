@@ -8,6 +8,9 @@ const host = process.env.TAURI_DEV_HOST
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    target: 'esnext'
+  },
   resolve: {
     alias: {
       '@routes': path.resolve(__dirname, 'src/routes'),
