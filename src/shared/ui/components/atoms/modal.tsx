@@ -7,12 +7,7 @@ interface ModalProps extends React.HTMLProps<HTMLDialogElement> {
   onClose(): void
 }
 
-const Modal: React.FC<ModalProps> = ({
-  children,
-  className,
-  isOpen,
-  onClose
-}) => {
+const Modal: React.FC<ModalProps> = ({ children, className, isOpen, onClose }) => {
   const dialogRef = useRef<HTMLDialogElement | null>(null)
 
   useEffect(() => {
@@ -33,7 +28,7 @@ const Modal: React.FC<ModalProps> = ({
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       className={clsx(
-        'm-auto bg-gray-950 text-gray-200 rounded-2xl border-2 border-gray-800 backdrop:backdrop-blur-sm overlay',
+        'overlay m-auto rounded-2xl border-2 border-gray-800 bg-gray-950 text-gray-200 backdrop:backdrop-blur-sm',
         className
       )}
     >
