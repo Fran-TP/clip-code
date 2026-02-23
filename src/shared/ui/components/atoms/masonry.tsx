@@ -6,9 +6,9 @@ interface MasonryProps<T> {
 }
 
 const CONFIG = {
-  columns: [1, 2],
-  gap: [16, 16],
-  media: [640, 768],
+  columns: [1, 2, 3],
+  gap: [16, 16, 18],
+  media: [640, 1024],
   useBalancedLayout: true
 }
 

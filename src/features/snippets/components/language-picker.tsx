@@ -23,14 +23,14 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
   return (
     <div className="flex h-72 overflow-clip">
       <div className="h-full w-1/3 overflow-y-auto border-border-primary border-r-2 bg-bg-input">
-        <ul className="p-1">
+        <ul className="p-2">
           {Object.keys(categoriesWithLanguages).map(category => {
             return (
               <li key={category}>
                 <button
                   type="button"
                   className={clsx(
-                    'w-full cursor-pointer rounded-md px-3 py-2 text-left text-sm transition-colors',
+                    'w-full cursor-pointer rounded-md px-3 py-2 text-left text-xs uppercase tracking-[0.14em] transition-colors',
                     {
                       'bg-bg-elevated': category === selectedCategory,
                       'hover:bg-bg-hover': category !== selectedCategory
@@ -47,7 +47,7 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
       </div>
       <div className="w-2/3 overflow-y-auto bg-bg-input">
         {languages.length > 0 ? (
-          <ul className="p-1">
+          <ul className="p-2">
             {languages.map(({ languageId, language }) => {
               return (
                 <li key={languageId}>

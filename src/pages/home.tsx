@@ -5,7 +5,12 @@ import { ParsedSnippetProvider } from '@features/snippets/context/parsed-snippet
 const Home: React.FC = () => {
   return (
     <>
-      <h1 className="mb-4 font-bold text-3xl">Snippets</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="font-semibold text-2xl">Snippets</h1>
+          <p className="text-sm text-text-muted">Your local library of code fragments.</p>
+        </div>
+      </div>
       <ParsedSnippetProvider>
         <ModalProvider>
           <SnippetList />
