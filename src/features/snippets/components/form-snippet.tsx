@@ -73,10 +73,7 @@ const FormSnippet: React.FC = () => {
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      <Label
-        htmlFor="title"
-        className="flex flex-col gap-1 text-text-muted text-xs uppercase tracking-[0.2em]"
-      >
+      <Label htmlFor="title" className="flex flex-col gap-1 text-sm text-text-muted">
         Title
         <Input
           id="title"
@@ -84,7 +81,6 @@ const FormSnippet: React.FC = () => {
           name="title"
           value={formSnippet.title}
           placeholder="Title of the snippet"
-          className="text-sm"
           autoComplete="off"
           required
           onChange={event => {
@@ -97,10 +93,7 @@ const FormSnippet: React.FC = () => {
           }}
         />
       </Label>
-      <Label
-        htmlFor="description"
-        className="flex flex-col gap-1 text-text-muted text-xs uppercase tracking-[0.2em]"
-      >
+      <Label htmlFor="description" className="flex flex-col gap-1 text-sm text-text-muted">
         Description
         <textarea
           id="description"
@@ -121,10 +114,7 @@ const FormSnippet: React.FC = () => {
       </Label>
       <div className="flex flex-col divide-y-2 divide-border-primary rounded-lg border-2 border-border-primary bg-bg-code">
         <div className="relative p-3">
-          <Label
-            htmlFor="language-search"
-            className="mb-1.5 inline-block text-text-muted text-xs uppercase tracking-[0.2em]"
-          >
+          <Label htmlFor="language-search" className="mb-1.5 inline-block text-sm text-text-muted">
             Language
           </Label>
           <Input
@@ -135,7 +125,7 @@ const FormSnippet: React.FC = () => {
             placeholder="Search language"
             autoComplete="off"
             onChange={handleSearchChange}
-            className="peer w-full pl-8.5 text-sm"
+            className="peer w-full pl-8.5"
           />
           <Search className="absolute bottom-6 left-5 size-5 transform text-text-primary opacity-70 transition-all peer-focus-visible:text-accent peer-focus-visible:opacity-100" />
         </div>

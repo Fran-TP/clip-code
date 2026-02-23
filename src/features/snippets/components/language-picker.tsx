@@ -30,7 +30,7 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
                 <button
                   type="button"
                   className={clsx(
-                    'w-full cursor-pointer rounded-md px-3 py-2 text-left text-xs uppercase tracking-[0.14em] transition-colors',
+                    'w-full cursor-pointer rounded-md px-3 py-2 text-left text-xs transition-colors',
                     {
                       'bg-bg-elevated': category === selectedCategory,
                       'hover:bg-bg-hover': category !== selectedCategory

@@ -249,6 +249,15 @@ dialog[open]::backdrop {
 	}
 }
 
+/* Form elements font reset — browsers don't inherit font-family by default */
+input,
+textarea,
+button,
+select {
+	font-family: inherit;
+	font-size: inherit;
+}
+
 /* Smooth theme transition */
 html.theme-transition,
 html.theme-transition *,
