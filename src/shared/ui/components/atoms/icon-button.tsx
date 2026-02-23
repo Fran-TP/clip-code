@@ -7,7 +7,7 @@ const IconButton: React.FC<IconButtonProps> = ({ children, className, ...props }
     <button
       type="button"
       className={clsx(
-        'group inline-flex cursor-pointer items-center rounded-sm border-2 border-gray-800 p-2 outline-base transition-colors duration-200 hover:bg-gray-900',
+        'group inline-flex cursor-pointer items-center rounded-sm border-2 border-border-primary p-2 outline-base transition-colors duration-200 hover:bg-bg-hover',
         className
       )}
       {...props}

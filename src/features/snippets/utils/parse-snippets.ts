@@ -1,14 +1,14 @@
-import type { Snippet } from '@features/snippets/types'
+import type { ParsedSnippet, Snippet } from '@features/snippets/types'
+import type { BundledTheme } from 'shiki'
 import { codeToHtml } from 'shiki'
 
-interface ParsedSnippet extends Snippet {
-  rawCode: string
-}
-
-export const parseSnippets = async (snippets: Snippet[]): Promise<ParsedSnippet[]> => {
+export const parseSnippets = async (
+  snippets: Snippet[],
+  theme: BundledTheme = 'github-dark-default'
+): Promise<ParsedSnippet[]> => {
   const parsedSnippets = snippets.map(async snippet => {
     const html = await codeToHtml(snippet.code, {
-      theme: 'github-dark-default',
+      theme,
       lang: snippet.fkLanguageId
     })
 

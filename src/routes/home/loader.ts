@@ -2,9 +2,9 @@ import { fetchPaginatedSnippets } from '@features/snippets/services/snippet-serv
 
 const HomeLoader = async () => {
   try {
-    const snippetsPromise = fetchPaginatedSnippets(null, 15)
+    const snippets = await fetchPaginatedSnippets(null, 15)
 
-    return snippetsPromise
+    return snippets
   } catch (error) {
     throw Response.json({ message: 'Failed to load snippets' }, { status: 500 })
   }

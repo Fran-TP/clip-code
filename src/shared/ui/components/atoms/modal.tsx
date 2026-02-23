@@ -28,7 +28,7 @@ const Modal: React.FC<ModalProps> = ({ children, className, isOpen, onClose }) =
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       className={clsx(
-        'overlay m-auto rounded-2xl border-2 border-gray-800 bg-gray-950 text-gray-200 backdrop:backdrop-blur-sm',
+        'overlay m-auto rounded-2xl border-2 border-border-primary bg-bg-primary text-text-primary backdrop:backdrop-blur-sm',
         className
       )}
     >

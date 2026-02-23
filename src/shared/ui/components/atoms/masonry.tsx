@@ -2,7 +2,7 @@ import { Masonry } from 'react-plock'
 
 interface MasonryProps<T> {
   items: T[]
-  children: (item: T) => React.ReactNode
+  children: (item: T, index: number) => React.ReactNode
 }
 
 const CONFIG = {
@@ -13,7 +13,7 @@ const CONFIG = {
 }
 
 const MasonryLayout = <T,>({ items, children }: MasonryProps<T>) => {
-  return <Masonry items={items} config={CONFIG} render={item => children(item)} />
+  return <Masonry items={items} config={CONFIG} render={(item, index) => children(item, index)} />
 }
 
 export default MasonryLayout

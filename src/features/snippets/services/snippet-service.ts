@@ -1,42 +1,17 @@
 import type { ParsedSnippet, Snippet } from '@features/snippets/types'
 import { db } from '@shared/config/db-config'
+import type { BundledTheme } from 'shiki'
 import { parseSnippets } from '../utils/parse-snippets'
-
-export const fetchSnippets = async (): Promise<Snippet[]> => {
-  try {
-    const result = await db.select<Snippet[]>(`
-      SELECT s.snippet_id AS snippetId, s.title, s.description, s.code, s.is_favorite AS isFavorite, s.created_at AS createdAt, l.language_id AS fkLanguageId
-      FROM snippets s
-      JOIN languages l ON s.fk_language_id = l.language_id
-      ORDER BY created_at DESC;
-    `)
-
-    const [count] = await db.select<{ totalSnippets: number }[]>(
-      'SELECT COUNT(*) totalSnippets FROM snippets WHERE snippets.snippet_id < 0'
-    )
-
-    console.log('Total snippets:', count)
-
-    return result
-  } catch (error) {
-    throw new Error('Failed to fetch snippets')
-  }
-}
 
 type SnippetToCreate = Omit<Snippet, 'snippetId' | 'createdAt' | 'isFavorite'>
 
 export const createSnippet = async (snippet: SnippetToCreate): Promise<boolean> => {
-  try {
-    const result = await db.execute(
-      'INSERT INTO snippets(title, description, code, fk_language_id) VALUES ($1, $2, $3, $4)',
-      [snippet.title, snippet.description, snippet.code, snippet.fkLanguageId]
-    )
+  const result = await db.execute(
+    'INSERT INTO snippets(title, description, code, fk_language_id) VALUES ($1, $2, $3, $4)',
+    [snippet.title, snippet.description, snippet.code, snippet.fkLanguageId]
+  )
 
-    return result.rowsAffected > 0
-  } catch (error) {
-    console.error('Error creating snippet:', error)
-    throw error
-  }
+  return result.rowsAffected > 0
 }
 
 export const deleteSnippet = async (snippetId: number): Promise<boolean> => {
@@ -57,15 +32,16 @@ export const deleteSnippet = async (snippetId: number): Promise<boolean> => {
   }
 }
 
-interface FetchPagintedSnippetsReturn {
+interface FetchPaginatedSnippetsReturn {
   snippets: ParsedSnippet[]
   hasMore: boolean
   nextCursor: number | null
 }
 export const fetchPaginatedSnippets = async (
   cursor: number | null,
-  limit: number
-): Promise<FetchPagintedSnippetsReturn> => {
+  limit: number,
+  theme: BundledTheme = 'github-dark-default'
+): Promise<FetchPaginatedSnippetsReturn> => {
   try {
     const query = `
       SELECT s.snippet_id AS snippetId, s.title, s.description, s.code, s.is_favorite AS isFavorite, s.created_at AS createdAt, l.language_id AS fkLanguageId
@@ -78,7 +54,7 @@ export const fetchPaginatedSnippets = async (
 
     const params = cursor ? [cursor, limit] : [limit]
     const result = await db.select<Snippet[]>(query, params)
-    const parsedSnippets = await parseSnippets(result)
+    const parsedSnippets = await parseSnippets(result, theme)
     const hasMore = result.length === limit
     const nextCursor = result.length > 0 ? (result.at(-1)?.snippetId as number) : null
 
@@ -88,7 +64,6 @@ export const fetchPaginatedSnippets = async (
       nextCursor
     }
   } catch (error) {
-    console.error('Error fetching paginated snippets:', error)
     throw new Error('Failed to fetch paginated snippets')
   }
 }

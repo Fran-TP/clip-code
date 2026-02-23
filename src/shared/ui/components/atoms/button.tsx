@@ -7,7 +7,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, ...props }) => {
     <button
       type="button"
       className={clsx(
-        'button-raised bg-cyan-500 text-gray-200 rounded-xl cursor-pointer outline-2 outline-transparent outline-offset-3 focus-visible:outline-gray-700 hover:bg-cyan-600 transition-all duration-200',
+        'button-raised cursor-pointer rounded-xl bg-accent text-text-inverse outline-2 outline-transparent outline-offset-3 transition-all duration-200 hover:bg-accent-hover focus-visible:outline-focus-ring',
         className
       )}
       {...props}

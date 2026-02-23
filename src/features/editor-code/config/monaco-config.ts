@@ -27,11 +27,15 @@ export const OPTIONS: EditorProps['options'] = {
 
 export const initializeMonacoEditor = async (
   monaco: Monaco,
-  highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>
+  highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>,
+  activeTheme: BundledTheme
 ) => {
   const instanceHighlighter = await highlighter
 
+  // shikiToMonaco registers themes and defaults to the first one (github-dark-default).
+  // We must re-apply the correct theme immediately after.
   shikiToMonaco(instanceHighlighter, monaco)
+  monaco.editor.setTheme(activeTheme)
 }
 
 export const loadAdditionalLanguage = async (
@@ -40,9 +44,9 @@ export const loadAdditionalLanguage = async (
   highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>
 ) => {
   const instanceHighlighter = await highlighter
-  const loadLanguage = instanceHighlighter.getLoadedLanguages()
+  const loadedLanguages = instanceHighlighter.getLoadedLanguages()
 
-  if (!loadLanguage.includes(language)) {
+  if (!loadedLanguages.includes(language)) {
     await instanceHighlighter.loadLanguage(language)
 
     monaco.languages.register({ id: language })

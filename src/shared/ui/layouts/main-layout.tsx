@@ -8,7 +8,7 @@ const MainLayout: React.FC = () => {
   const { pathname } = useLocation()
 
   return (
-    <div className="flex min-h-screen flex-col text-gray-200">
+    <div className="flex min-h-screen flex-col text-text-primary">
       <Header />
       <Progressbar />
       <div className="flex flex-1 overflow-x-clip">

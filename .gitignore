@@ -27,6 +27,10 @@ cspell.json
 *.codebook.toml
 codebook.toml
 
+# Agent skills (third-party reference material)
+.agents/skills/
+skills-lock.json
+
 #env files
 .env
 .env.*.local

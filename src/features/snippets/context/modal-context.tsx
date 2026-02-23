@@ -1,5 +1,5 @@
 import { deleteSnippet } from '@features/snippets/services/snippet-service'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 interface SnippetToDelete {
@@ -25,16 +25,19 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [snippetToDelete, setSnippetToDelete] = useState<SnippetToDelete | null>(null)
 
-  const handleOpenModal = (snippetToDelete: SnippetToDelete) => () => {
-    setSnippetToDelete(snippetToDelete)
-    setIsModalOpen(true)
-  }
+  const handleOpenModal = useCallback(
+    (snippetToDelete: SnippetToDelete) => () => {
+      setSnippetToDelete(snippetToDelete)
+      setIsModalOpen(true)
+    },
+    []
+  )
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false)
-  }
+  }, [])
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = useCallback(async () => {
     if (!snippetToDelete) return
 
     toast.promise(deleteSnippet(snippetToDelete.snippetId), {
@@ -43,26 +46,24 @@ export const ModalProvider = ({ children }: ModalProviderProps) => {
         handleCloseModal()
         return 'Snippet deleted successfully'
       },
-      error: error => {
-        console.error(error)
+      error: () => {
         return 'Error deleting snippet'
       }
     })
-  }
+  }, [snippetToDelete, handleCloseModal])
 
-  return (
-    <modalContext.Provider
-      value={{
-        isModalOpen,
-        showModal: handleOpenModal,
-        closeModal: handleCloseModal,
-        handleConfirmDelete,
-        snippetToDelete
-      }}
-    >
-      {children}
-    </modalContext.Provider>
+  const value = useMemo<ModalContextProps>(
+    () => ({
+      isModalOpen,
+      showModal: handleOpenModal,
+      closeModal: handleCloseModal,
+      handleConfirmDelete,
+      snippetToDelete
+    }),
+    [isModalOpen, handleOpenModal, handleCloseModal, handleConfirmDelete, snippetToDelete]
   )
+
+  return <modalContext.Provider value={value}>{children}</modalContext.Provider>
 }
 
 export const useModal = () => {

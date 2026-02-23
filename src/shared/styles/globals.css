@@ -43,20 +43,143 @@
 		url("/fonts/poppins-latin-400-normal.ttf") format("truetype");
 }
 
+/* ─── Semantic color tokens ─── */
+
+:root {
+	/* Backgrounds */
+	--color-bg-primary: hsl(220, 15%, 96%);
+	--color-bg-secondary: hsl(220, 15%, 91%);
+	--color-bg-card: hsl(0, 0%, 100%);
+	--color-bg-elevated: hsl(220, 15%, 98%);
+	--color-bg-input: hsl(0, 0%, 100%);
+	--color-bg-code: hsl(220, 15%, 97%);
+	--color-bg-hover: hsl(220, 15%, 93%);
+	--color-bg-skeleton: hsl(220, 15%, 90%);
+
+	/* Borders */
+	--color-border-primary: hsl(220, 13%, 86%);
+	--color-border-secondary: hsl(220, 13%, 80%);
+
+	/* Text */
+	--color-text-primary: hsl(220, 12%, 28%);
+	--color-text-secondary: hsl(220, 10%, 44%);
+	--color-text-muted: hsl(220, 10%, 58%);
+	--color-text-inverse: hsl(220, 15%, 96%);
+
+	/* Accent */
+	--color-accent: hsl(187, 72%, 45%);
+	--color-accent-hover: hsl(187, 72%, 38%);
+	--color-accent-subtle: hsl(187, 60%, 92%);
+
+	/* Semantic */
+	--color-danger: hsl(0, 72%, 51%);
+	--color-danger-hover: hsl(0, 72%, 45%);
+	--color-success: hsl(142, 72%, 40%);
+
+	/* Scrollbar */
+	--color-scroll-track: hsl(220, 15%, 93%);
+	--color-scroll-thumb: hsl(220, 15%, 80%);
+
+	/* Shadows */
+	--shadow-card: 0 1px 3px hsl(220 15% 12% / 0.06), 0 1px 2px
+		hsl(220 15% 12% / 0.04);
+	--shadow-elevated: 0 4px 12px hsl(220 15% 12% / 0.08), 0 2px 4px
+		hsl(220 15% 12% / 0.04);
+
+	/* Focus ring */
+	--color-focus-ring: hsl(220, 10%, 60%);
+
+	/* Button raised shadow */
+	--raised-shadow-outer: rgba(49, 21, 130, 0.2);
+}
+
+.dark {
+	/* Backgrounds */
+	--color-bg-primary: hsl(216, 28%, 7%);
+	--color-bg-secondary: hsl(216, 20%, 10%);
+	--color-bg-card: hsl(216, 22%, 9%);
+	--color-bg-elevated: hsl(216, 25%, 12%);
+	--color-bg-input: hsl(220, 20%, 5%);
+	--color-bg-code: hsl(216, 28%, 7%);
+	--color-bg-hover: hsl(216, 20%, 14%);
+	--color-bg-skeleton: hsl(216, 22%, 11%);
+
+	/* Borders */
+	--color-border-primary: hsl(216, 15%, 18%);
+	--color-border-secondary: hsl(216, 15%, 24%);
+
+	/* Text */
+	--color-text-primary: hsl(216, 15%, 88%);
+	--color-text-secondary: hsl(216, 10%, 60%);
+	--color-text-muted: hsl(216, 10%, 45%);
+	--color-text-inverse: hsl(220, 15%, 12%);
+
+	/* Accent */
+	--color-accent: hsl(187, 72%, 50%);
+	--color-accent-hover: hsl(187, 72%, 42%);
+	--color-accent-subtle: hsl(187, 50%, 15%);
+
+	/* Semantic */
+	--color-danger: hsl(0, 72%, 51%);
+	--color-danger-hover: hsl(0, 72%, 45%);
+	--color-success: hsl(142, 72%, 45%);
+
+	/* Scrollbar */
+	--color-scroll-track: hsl(220, 20%, 5%);
+	--color-scroll-thumb: hsl(216, 28%, 7%);
+
+	/* Shadows */
+	--shadow-card: 0 1px 3px hsl(0 0% 0% / 0.2), 0 1px 2px hsl(0 0% 0% / 0.15);
+	--shadow-elevated: 0 4px 12px hsl(0 0% 0% / 0.3), 0 2px 4px hsl(0 0% 0% / 0.2);
+
+	/* Focus ring */
+	--color-focus-ring: hsl(216, 15%, 35%);
+
+	/* Button raised shadow */
+	--raised-shadow-outer: rgba(49, 21, 130, 0.2);
+}
+
 @theme {
 	--font-JetBrainsMono: "JetBrains Mono", monospace, ui-monospace;
 	--font-Poppins: "Poppins", system-ui, sans-serif, serif;
-	/* Colors */
-	--color-base: hsl(216, 28%, 7%);
-	/* custom heights */
+
+	/* Semantic tokens as Tailwind colors */
+	--color-bg-primary: var(--color-bg-primary);
+	--color-bg-secondary: var(--color-bg-secondary);
+	--color-bg-card: var(--color-bg-card);
+	--color-bg-elevated: var(--color-bg-elevated);
+	--color-bg-input: var(--color-bg-input);
+	--color-bg-code: var(--color-bg-code);
+	--color-bg-hover: var(--color-bg-hover);
+	--color-bg-skeleton: var(--color-bg-skeleton);
+
+	--color-border-primary: var(--color-border-primary);
+	--color-border-secondary: var(--color-border-secondary);
+
+	--color-text-primary: var(--color-text-primary);
+	--color-text-secondary: var(--color-text-secondary);
+	--color-text-muted: var(--color-text-muted);
+	--color-text-inverse: var(--color-text-inverse);
+
+	--color-accent: var(--color-accent);
+	--color-accent-hover: var(--color-accent-hover);
+	--color-accent-subtle: var(--color-accent-subtle);
+
+	--color-danger: var(--color-danger);
+	--color-danger-hover: var(--color-danger-hover);
+	--color-success: var(--color-success);
+
+	--color-focus-ring: var(--color-focus-ring);
+
+	/* Custom heights */
 	--header-height: 4rem;
 }
 
 @utility button-raised {
 	box-shadow:
-		0px -2px 2px 0px var(--color-cyan-600) inset,
-		0px 0px 1px 2px rgba(49, 21, 130, 0.2),
-		0px 0px 0px 2px var(--color-cyan-500) inset;
+		0px -2px 2px 0px var(--color-accent-hover) inset,
+		0px 0px 1px 2px var(--raised-shadow-outer),
+		0px 0px 0px 2px var(--color-accent) inset;
 }
 
 @utility outline-base {
@@ -66,15 +189,12 @@
 
 	&:focus-visible {
 		outline-style: solid;
-		outline-color: var(--color-gray-700);
+		outline-color: var(--color-focus-ring);
 	}
 }
 
 @utility scroll-base {
-	--scroll-track-color: var(--color-gray-950);
-	--scroll-thumb-color: var(--color-base);
-
-	scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+	scrollbar-color: var(--color-scroll-thumb) var(--color-scroll-track);
 }
 
 @utility h-sidebar {
@@ -125,4 +245,14 @@ dialog[open]::backdrop {
 	@starting-style {
 		opacity: 0;
 	}
+}
+
+/* Smooth theme transition */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+	transition:
+		background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, fill 0.3s ease, box-shadow 0.3s ease !important;
+	transition-delay: 0s !important;
 }

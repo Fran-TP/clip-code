@@ -8,7 +8,7 @@ import Input from '@shared/ui/components/atoms/input'
 import Label from '@shared/ui/components/atoms/label'
 import Fuse from 'fuse.js'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useLoaderData } from 'react-router'
 import type { BundledLanguage } from 'shiki'
 import { toast } from 'sonner'
@@ -20,9 +20,7 @@ const FormSnippet: React.FC = () => {
   const { categoriesWithLanguages, languages } = useLoaderData<LoaderDataCreateSnippet>()
   const { formSnippet, setFormSnippet } = useFormSnippet()
 
-  const fuse = new Fuse(languages, {
-    keys: ['language']
-  })
+  const fuse = useMemo(() => new Fuse(languages, { keys: ['language'] }), [languages])
   const filteredResult = fuse.search(searchTerm, {
     limit: 20
   })
@@ -30,24 +28,28 @@ const FormSnippet: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const success = await createSnippet({
-      ...formSnippet,
-      fkLanguageId: formSnippet.language
-    })
+    try {
+      const success = await createSnippet({
+        ...formSnippet,
+        fkLanguageId: formSnippet.language
+      })
 
-    if (success) {
-      setFormSnippet(prev => ({
-        title: '',
-        description: '',
-        code: '// your code here',
-        language: prev.language
-      }))
+      if (success) {
+        setFormSnippet(prev => ({
+          title: '',
+          description: '',
+          code: '// your code here',
+          language: prev.language
+        }))
 
-      setSearchTerm('')
+        setSearchTerm('')
 
-      toast.success('Snippet created successfully')
-    } else {
-      console.error('Error creating snippet')
+        toast.success('Snippet created successfully')
+      } else {
+        toast.error('Failed to create snippet')
+      }
+    } catch {
+      toast.error('An error occurred while creating the snippet')
     }
   }
 
@@ -98,7 +100,7 @@ const FormSnippet: React.FC = () => {
           name="description"
           value={formSnippet.description}
           placeholder="Description of the snippet"
-          className="field-sizing-content resize-none rounded-sm border-2 border-gray-800 bg-gray-950 px-3 py-2 outline-2 outline-transparent transition-colors duration-200 focus-visible:outline-cyan-500"
+          className="field-sizing-content resize-none rounded-sm border-2 border-border-primary bg-bg-input px-3 py-2 outline-2 outline-transparent transition-colors duration-200 focus-visible:outline-accent"
           required
           onChange={event => {
             const value = event.currentTarget.value
@@ -110,11 +112,11 @@ const FormSnippet: React.FC = () => {
           }}
         />
       </Label>
-      <Label htmlFor="language-search" className="mb-1 inline-block">
-        Language
-      </Label>
-      <div className="flex flex-col divide-y-2 divide-gray-800 rounded-md border-2 border-gray-800 bg-base">
+      <div className="flex flex-col divide-y-2 divide-border-primary rounded-md border-2 border-border-primary bg-bg-code">
         <div className="relative p-3">
+          <Label htmlFor="language-search" className="mb-1.5 inline-block text-xs">
+            Language
+          </Label>
           <Input
             id="language-search"
             type="search"
@@ -125,7 +127,7 @@ const FormSnippet: React.FC = () => {
             onChange={handleSearchChange}
             className="peer w-full pl-8.5 text-sm"
           />
-          <Search className="-translate-y-1/2 absolute top-1/2 left-5 size-5 transform text-gray-200 opacity-70 transition-all peer-focus-visible:text-cyan-500 peer-focus-visible:opacity-100" />
+          <Search className="absolute bottom-6 left-5 size-5 transform text-text-primary opacity-70 transition-all peer-focus-visible:text-accent peer-focus-visible:opacity-100" />
         </div>
         <LanguagePicker
           categoriesWithLanguages={categoriesWithLanguages}

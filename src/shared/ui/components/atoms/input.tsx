@@ -7,7 +7,7 @@ const Input: React.FC<InputProps> = ({ className, ...props }) => {
     <input
       type="text"
       className={clsx(
-        'bg-gray-950 border-2 border-gray-800 h-10 px-3 py-2 rounded-sm outline-2 outline-transparent focus-visible:outline-cyan-500 transition-colors duration-200',
+        'h-10 rounded-sm border-2 border-border-primary bg-bg-input px-3 py-2 outline-2 outline-transparent transition-colors duration-200 focus-visible:outline-accent',
         className
       )}
       {...props}

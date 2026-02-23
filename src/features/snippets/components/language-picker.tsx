@@ -1,7 +1,4 @@
-import type {
-  CategoriesWithLanguagesMap,
-  Languages
-} from '@features/snippets/types'
+import type { CategoriesWithLanguagesMap, Languages } from '@features/snippets/types'
 import clsx from 'clsx'
 import { Check } from 'lucide-react'
 import type { BundledLanguage } from 'shiki'
@@ -24,8 +21,8 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
   onSelectedLanguage
 }) => {
   return (
-    <div className="flex overflow-clip h-72">
-      <div className="w-1/3 h-full border-r-2 border-gray-800 bg-gray-950 overflow-y-auto">
+    <div className="flex h-72 overflow-clip">
+      <div className="h-full w-1/3 overflow-y-auto border-border-primary border-r-2 bg-bg-input">
         <ul className="p-1">
           {Object.keys(categoriesWithLanguages).map(category => {
             return (
@@ -33,10 +30,10 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
                 <button
                   type="button"
                   className={clsx(
-                    'w-full cursor-pointer text-left px-3 py-2 rounded-md text-sm transition-colors',
+                    'w-full cursor-pointer rounded-md px-3 py-2 text-left text-sm transition-colors',
                     {
-                      'bg-gray-800': category === selectedCategory,
-                      'hover:bg-gray-800': category !== selectedCategory
+                      'bg-bg-elevated': category === selectedCategory,
+                      'hover:bg-bg-hover': category !== selectedCategory
                     }
                   )}
                   onClick={onSelectedCategory(category)}
@@ -48,7 +45,7 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
           })}
         </ul>
       </div>
-      <div className="w-2/3 bg-gray-950 overflow-y-auto">
+      <div className="w-2/3 overflow-y-auto bg-bg-input">
         {languages.length > 0 ? (
           <ul className="p-1">
             {languages.map(({ languageId, language }) => {
@@ -57,17 +54,17 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
                   <button
                     type="button"
                     className={clsx(
-                      'w-full inline-flex justify-between outline-base items-center cursor-pointer text-left px-3 py-2 rounded-md text-sm transition-colors',
+                      'inline-flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2 text-left text-sm outline-base transition-colors',
                       {
-                        'bg-gray-800': language === selectedLanguage,
-                        'hover:bg-gray-800': language !== selectedLanguage
+                        'bg-bg-elevated': language === selectedLanguage,
+                        'hover:bg-bg-hover': language !== selectedLanguage
                       }
                     )}
                     onClick={onSelectedLanguage(languageId)}
                   >
                     <span>{language}</span>
                     {languageId === selectedLanguage && (
-                      <Check className="size-4 text-green-500 stroke-4" />
+                      <Check className="size-4 stroke-4 text-success" />
                     )}
                   </button>
                 </li>
@@ -75,7 +72,7 @@ const LanguagePicker: React.FC<LanguagePickerProps> = ({
             })}
           </ul>
         ) : (
-          <div className="text-sm grid place-items-center h-full">
+          <div className="grid h-full place-items-center text-sm text-text-muted">
             No result for
           </div>
         )}

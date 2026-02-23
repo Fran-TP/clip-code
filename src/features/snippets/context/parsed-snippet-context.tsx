@@ -1,6 +1,16 @@
 import { fetchPaginatedSnippets } from '@features/snippets/services/snippet-service'
 import type { ParsedSnippet } from '@features/snippets/types'
-import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
+import { parseSnippets } from '@features/snippets/utils/parse-snippets'
+import { useTheme } from '@shared/context/theme-context'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef
+} from 'react'
 
 interface State {
   snippets: ParsedSnippet[]
@@ -18,7 +28,7 @@ interface ParsedSnippetContextProps {
   handleNextPage: () => void
 }
 
-interface ParsedSnippetPropviderProps {
+interface ParsedSnippetProviderProps {
   children: React.ReactNode
 }
 
@@ -79,7 +89,8 @@ const snippetReducer = (state: State, action: Action): State => {
 
 const ParsedSnippetContext = createContext<ParsedSnippetContextProps | null>(null)
 
-export const ParsedSnippetProvider = ({ children }: ParsedSnippetPropviderProps) => {
+export const ParsedSnippetProvider = ({ children }: ParsedSnippetProviderProps) => {
+  const { editorTheme } = useTheme()
   const [state, dispatch] = useReducer(snippetReducer, {
     snippets: [],
     hasMore: false,
@@ -90,55 +101,86 @@ export const ParsedSnippetProvider = ({ children }: ParsedSnippetPropviderProps)
     error: null
   })
 
+  const seenCursors = useRef<Set<number | null>>(new Set())
+  const snippetsRef = useRef<ParsedSnippet[]>([])
+
+  // Keep ref in sync with state
+  snippetsRef.current = state.snippets
+
+  const fetchNextPage = useCallback(
+    async (cursor: number | null, perPage = 15) => {
+      if (seenCursors.current.has(cursor)) return
+      seenCursors.current.add(cursor)
+
+      try {
+        dispatch({ type: 'FETCH_INIT' })
+        const result = await fetchPaginatedSnippets(cursor, perPage, editorTheme)
+
+        dispatch({
+          type: 'FETCH_SUCCESS',
+          payload: result
+        })
+      } catch (error) {
+        dispatch({
+          type: 'FETCH_FAILURE',
+          payload: { error: error instanceof Error ? error : new Error('Unknown error') }
+        })
+      }
+    },
+    [editorTheme]
+  )
+
+  // Initial fetch
+  const initialFetchDone = useRef(false)
   useEffect(() => {
+    if (initialFetchDone.current) return
+    initialFetchDone.current = true
     fetchNextPage(null)
-  }, [])
+  }, [fetchNextPage])
 
-  const seemCursors = useRef<Set<number | null>>(new Set())
-
-  const handleNextPage = () => {
-    if (!state.hasMore || state.isLoading) return
-    const { nextCursor } = state
-    fetchNextPage(nextCursor)
-  }
-
-  const setParsedSnippets = (snippets: ParsedSnippet[]) => {
-    dispatch({ type: 'SET_SNIPPETS', payload: { snippets } })
-  }
-
-  const fetchNextPage = async (cursor: number | null, perPage = 15) => {
-    if (seemCursors.current.has(cursor)) return
-    seemCursors.current.add(cursor)
-
-    try {
-      dispatch({ type: 'FETCH_INIT' })
-      const result = await fetchPaginatedSnippets(cursor, perPage)
-
-      dispatch({
-        type: 'FETCH_SUCCESS',
-        payload: result
-      })
-    } catch (error) {
-      dispatch({
-        type: 'FETCH_FAILURE',
-        payload: { error: error instanceof Error ? error : new Error('Unknown error') }
-      })
+  // Re-parse existing snippets when editor theme changes (skip initial)
+  const isFirstThemeRender = useRef(true)
+  useEffect(() => {
+    if (isFirstThemeRender.current) {
+      isFirstThemeRender.current = false
+      return
     }
-  }
+
+    const currentSnippets = snippetsRef.current
+    if (currentSnippets.length === 0) return
+
+    // Reconstruct original Snippet objects from ParsedSnippet (rawCode -> code)
+    const originalSnippets = currentSnippets.map(s => ({
+      ...s,
+      code: s.rawCode
+    }))
+
+    parseSnippets(originalSnippets, editorTheme).then(reparsed => {
+      dispatch({ type: 'SET_SNIPPETS', payload: { snippets: reparsed } })
+    })
+  }, [editorTheme])
+
+  const handleNextPage = useCallback(() => {
+    if (!state.hasMore || state.isLoading) return
+    fetchNextPage(state.nextCursor)
+  }, [state.hasMore, state.isLoading, state.nextCursor, fetchNextPage])
+
+  const setParsedSnippets = useCallback((snippets: ParsedSnippet[]) => {
+    dispatch({ type: 'SET_SNIPPETS', payload: { snippets } })
+  }, [])
 
   const isEmpty = !state.isLoading && state.snippets.length === 0
 
-  return (
-    <ParsedSnippetContext.Provider
-      value={{
-        state: { ...state, isEmpty },
-        setParsedSnippets,
-        handleNextPage
-      }}
-    >
-      {children}
-    </ParsedSnippetContext.Provider>
+  const value = useMemo<ParsedSnippetContextProps>(
+    () => ({
+      state: { ...state, isEmpty },
+      setParsedSnippets,
+      handleNextPage
+    }),
+    [state, isEmpty, setParsedSnippets, handleNextPage]
   )
+
+  return <ParsedSnippetContext.Provider value={value}>{children}</ParsedSnippetContext.Provider>
 }
 
 export const useParsedSnippets = () => {

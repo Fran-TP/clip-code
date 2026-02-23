@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import type { BundledLanguage } from 'shiki'
 
 type FormSnippet = {
@@ -27,11 +27,12 @@ export const FormSnippetProvider = ({ children }: FormSnippetProviderProps) => {
     language: 'javascript' as BundledLanguage
   })
 
-  return (
-    <formSnippetContext.Provider value={{ formSnippet, setFormSnippet }}>
-      {children}
-    </formSnippetContext.Provider>
+  const value = useMemo<FormSnippetContextProps>(
+    () => ({ formSnippet, setFormSnippet }),
+    [formSnippet]
   )
+
+  return <formSnippetContext.Provider value={value}>{children}</formSnippetContext.Provider>
 }
 
 export const useFormSnippet = () => {

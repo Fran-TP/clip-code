@@ -3,7 +3,7 @@ import EmptyState from '@features/snippets/components/empty-state'
 import SnippetCard from '@features/snippets/components/snippet-card'
 import { useParsedSnippets } from '@features/snippets/context/parsed-snippet-context'
 import SnippetsSkeleton from '@features/snippets/skeletons/snippets-skeleton'
-import useIntersectionObserver from '@shared/hooks/use-intersetion-observer'
+import useIntersectionObserver from '@shared/hooks/use-intersection-observer'
 import MasonryLayout from '@shared/ui/components/atoms/masonry'
 import { useEffect, useRef } from 'react'
 
@@ -27,7 +27,7 @@ const SnippetList: React.FC = () => {
 
   if (error) {
     return (
-      <div className="mt-10 text-center text-red-500">
+      <div className="mt-10 text-center text-danger">
         <p>Error loading snippets: {error.message}</p>
       </div>
     )
@@ -46,12 +46,10 @@ const SnippetList: React.FC = () => {
       </MasonryLayout>
 
       {isLoading && hasMore && (
-        <div className="mt-10 text-center text-gray-600 text-sm">Loading more snippets...</div>
+        <div className="mt-10 text-center text-sm text-text-muted">Loading more snippets...</div>
       )}
 
-      {!isLoading && hasMore && !isInitialLoading && (
-        <div id="visor" ref={targetRef} className="border-2 border-red-500" />
-      )}
+      {!isLoading && hasMore && !isInitialLoading && <div id="visor" ref={targetRef} />}
 
       <DeleteSnippetModal />
     </>

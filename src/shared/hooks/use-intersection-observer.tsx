@@ -8,28 +8,21 @@ const useIntersectionObserver = (
   const observer = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
-    if (!targetRef.current) return
+    const target = targetRef.current
+    if (!target) return
 
     observer.current = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true)
-          console.log('Element is in view')
-        } else {
-          setIsIntersecting(false)
-          console.log('Element is out of view')
-        }
+        setIsIntersecting(entry.isIntersecting)
       }
     }, options)
 
-    observer.current.observe(targetRef.current)
+    observer.current.observe(target)
 
     return () => {
-      if (observer) {
-        observer.current?.disconnect()
-      }
+      observer.current?.disconnect()
     }
-  }, [options, targetRef.current])
+  }, [options, targetRef])
 
   return {
     isIntersecting,

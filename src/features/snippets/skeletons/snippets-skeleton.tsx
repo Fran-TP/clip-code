@@ -15,7 +15,7 @@ const SnippetsSkeleton: React.FC = () => {
   ]
   return (
     <MasonryLayout items={skeletonSizes}>
-      {size => <SnippetCardSkeleton key={size} size={size} />}
+      {(size, index) => <SnippetCardSkeleton key={index} size={size} />}
     </MasonryLayout>
   )
 }

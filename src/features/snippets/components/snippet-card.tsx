@@ -27,7 +27,7 @@ const SnippetCard: FC<SnippetCardProps> = ({ snippetId, title, rawCode, isFavori
   }
 
   const handleClickFavorite = async () => {
-    const result = await updateFavoriteSnippet(snippetId, !isFavorite)
+    const result = await updateFavoriteSnippet(snippetId, !isFavoriteState)
 
     if (result.success) {
       setIsFavoriteState(!isFavoriteState)
@@ -38,7 +38,7 @@ const SnippetCard: FC<SnippetCardProps> = ({ snippetId, title, rawCode, isFavori
   }
 
   return (
-    <article className="overflow-clip rounded-lg border-2 border-gray-800">
+    <article className="overflow-clip rounded-lg border-2 border-border-primary bg-bg-card shadow-[var(--shadow-card)]">
       <header className="flex items-center justify-between p-2">
         <h2 className="font-medium text-sm">{title}</h2>
         <div className="flex gap-2">
@@ -54,7 +54,7 @@ const SnippetCard: FC<SnippetCardProps> = ({ snippetId, title, rawCode, isFavori
           <IconButton onClick={handleClickFavorite}>
             <AnimatedIcon keyAnimation={isFavoriteState ? 'favorite' : 'not-favorite'}>
               {isFavoriteState ? (
-                <Star className="size-4 fill-gray-200 opacity-70 group-hover:opacity-100" />
+                <Star className="size-4 fill-text-primary opacity-70 group-hover:opacity-100" />
               ) : (
                 <Star className="size-4 opacity-70 group-hover:opacity-100" />
               )}
